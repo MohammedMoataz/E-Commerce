@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { UsersModule } from './users/users.module';
+import { UsersController } from './users/users.controller';
+import { UsersService } from './users/users.service';
+import { DrizzleModule } from './infrastructure/drizzle/drizzle.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [UsersModule, DrizzleModule],
+  controllers: [UsersController],
+  providers: [UsersService],
 })
-export class AppModule {}
+export class AppModule { }
