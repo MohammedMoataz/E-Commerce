@@ -32,11 +32,11 @@ export class UsersService {
       .where(eq(UsersTable.id, id));
   }
 
-  async findOneByUsername(username: string): Promise<any> {
+  async findOneByEmail(email: string): Promise<any> {
     return await db
       .select()
       .from(UsersTable)
-      .where(eq(UsersTable.username, username));
+      .where(eq(UsersTable.email, email));
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
