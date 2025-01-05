@@ -7,7 +7,7 @@ import {
     integer,
 } from "drizzle-orm/pg-core";
 import { UsersEntity } from "src/users/entities/users.entity";
-import { ProductsEntity } from "src/products/entities/product.entity";
+import { ProductsEntity } from "src/products/entities/products.entity";
 
 export const ReviewsEntity = pgTable("reviews", {
     id: uuid("id")
