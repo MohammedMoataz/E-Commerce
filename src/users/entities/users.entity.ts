@@ -8,7 +8,7 @@ import {
     uuid,
 } from "drizzle-orm/pg-core";
 
-export const UsersTable = pgTable("users", {
+export const UsersEntity = pgTable("users", {
     id: uuid("id")
         .primaryKey()
         .defaultRandom(),
@@ -20,10 +20,12 @@ export const UsersTable = pgTable("users", {
     passwordHash: text("password_hash"),
     role: varchar("user_role", { enum: ["admin", "user"] })
         .default("user"),
-    avatar: text("avatar"),
+    avatar: text("avatar")
+        .default(null),
     age: integer(),
     phoneNumber: varchar("phone_number", { length: 11 }),
-    address: varchar("address", { length: 255 }),
+    address: varchar("address", { length: 255 })
+        .default("Egypt"),
     status: varchar("status", { enum: ["active", "inactive"] })
         .default("inactive"),
     gender: varchar("gender", { enum: ["male", "female"] }),

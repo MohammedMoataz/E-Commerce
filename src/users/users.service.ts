@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { desc, eq } from 'drizzle-orm';
 
-import db from 'src/infrastructure/config/drizzle.config';
-import { UsersTable } from './entities/users.entity';
+import db from 'src/infrastructure/config/db.config';
+import { UsersEntity } from './entities/users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -10,7 +10,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersService {
   async create(createUserDto: CreateUserDto) {
     return await db
-      .insert(UsersTable)
+      .insert(UsersEntity)
       .values({
         ...createUserDto,
         passwordHash: createUserDto.password
@@ -21,37 +21,37 @@ export class UsersService {
   async findAll() {
     return await db
       .select()
-      .from(UsersTable)
-      .orderBy(desc(UsersTable._id));
+      .from(UsersEntity)
+      .orderBy(desc(UsersEntity._id));
   }
 
   async findOne(id: string): Promise<any> {
     return await db
       .select()
-      .from(UsersTable)
-      .where(eq(UsersTable.id, id));
+      .from(UsersEntity)
+      .where(eq(UsersEntity.id, id));
   }
 
   async findOneByEmail(email: string): Promise<any> {
     return await db
       .select()
-      .from(UsersTable)
-      .where(eq(UsersTable.email, email));
+      .from(UsersEntity)
+      .where(eq(UsersEntity.email, email));
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     return await db
-      .update(UsersTable)
+      .update(UsersEntity)
       .set({
         ...updateUserDto,
         passwordHash: updateUserDto.password!,
       })
-      .where(eq(UsersTable.id, id));
+      .where(eq(UsersEntity.id, id));
   }
 
   async remove(id: string) {
     return await db
-      .delete(UsersTable)
-      .where(eq(UsersTable.id, id));
+      .delete(UsersEntity)
+      .where(eq(UsersEntity.id, id));
   }
 }
