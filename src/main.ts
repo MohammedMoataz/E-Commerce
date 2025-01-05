@@ -13,10 +13,25 @@ async function bootstrap() {
     .setTitle('E-Commerce APIs Documentation')
     .setDescription('The E-Commerce APIs Documentation')
     .setVersion('1.0')
-    .addTag('e-commerce')
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      name: 'JWT',
+      description: 'Enter JWT token',
+      in: 'header',
+    }, 'JWT')
+    .setContact(
+      'Mohammed Moataz',
+      'https://mohammed-moataz.vercel.app/',
+      'imohammedmoataz@gmail.com'
+    )
     .build();
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);
+  const documentFactory = () => SwaggerModule.createDocument(app, config, {
+    // autoTagControllers: true,
+    // deepScanRoutes: true,
+  });
+  SwaggerModule.setup('api-docs', app, documentFactory);
 
   await app.listen(process.env.PORT ?? 3000);
 }
