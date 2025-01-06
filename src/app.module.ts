@@ -9,7 +9,10 @@ import { OrdersModule } from './orders/orders.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { ProductsImagesModule } from './products_images/products_images.module';
+import { OrderItemsModule } from './order_items/order_items.module';
+import { CartModule } from './cart/cart.module';
 import { CartItemsModule } from './cart_items/cart_items.module';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @Module({
   imports: [
@@ -20,7 +23,10 @@ import { CartItemsModule } from './cart_items/cart_items.module';
     CategoriesModule,
     ReviewsModule,
     ProductsImagesModule,
-    CartItemsModule
+    OrderItemsModule,
+    CartModule,
+    CartItemsModule,
+    CheckoutModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],

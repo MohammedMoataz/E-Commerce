@@ -24,14 +24,10 @@ export const ProductsEntity = pgTable("products", {
         .default(0),
     cover_image: varchar("cover_image", { length: 250 })
         .default(null),
-    sold: boolean("sold")
-        .default(false),
     price: doublePrecision("price")
         .default(0),
     discount: doublePrecision("discount")
         .default(0),
-    hexaColor: varchar("hexa_color", { length: 8 })
-        .default("ffffffff"),
     ratingAverage: doublePrecision("rating_average")
         .default(0),
     ratingQuantity: integer("rating_quantity")

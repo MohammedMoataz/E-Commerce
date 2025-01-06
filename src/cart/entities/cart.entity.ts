@@ -4,23 +4,21 @@ import {
     timestamp,
     varchar,
     uuid,
-    integer,
+    doublePrecision,
 } from "drizzle-orm/pg-core";
-import { UsersEntity } from "src/users/entities/users.entity";
-import { ProductsEntity } from "src/products/entities/products.entity";
 
-export const ReviewsEntity = pgTable("reviews", {
+export const OrdersEntity = pgTable("cart", {
     id: uuid("id")
         .primaryKey()
         .defaultRandom(),
     _id: serial("_id"),
     // userId: integer("user_id")
     //     .references(() => UsersEntity._id, { onUpdate: "cascade", onDelete: "cascade" }),
-    // productId: integer("product_id")
-    //     .references(() => ProductsEntity._id, { onUpdate: "cascade", onDelete: "cascade" }),
-    content: varchar("content")
-        .default(null),
-    rating: integer("rate")
+    // orderId: integer("order_id")
+    //     .references(() => OrderssEntity._id, { onUpdate: "cascade", onDelete: "cascade" }),
+    totalAmount: doublePrecision("total_amount")
+        .default(0),
+    totalDiscount: doublePrecision("totaldiscount")
         .default(0),
     createdAt: timestamp("created_at")
         .defaultNow(),

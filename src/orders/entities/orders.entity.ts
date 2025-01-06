@@ -6,6 +6,8 @@ import {
     uuid,
     integer,
     doublePrecision,
+    jsonb,
+    boolean,
 } from "drizzle-orm/pg-core";
 import { UsersEntity } from "src/users/entities/users.entity";
 
@@ -16,19 +18,29 @@ export const OrdersEntity = pgTable("orders", {
     _id: serial("_id"),
     // userId: integer("user_id")
     //     .references(() => UsersEntity._id, { onUpdate: "cascade", onDelete: "cascade" }),
-    // cartItems: varchar("cart_items"),
-    taxPrice: doublePrecision("tax_price")
+    // cartId: integer("cart_id")
+    //     .references(() => UsersEntity._id, { onUpdate: "cascade", onDelete: "cascade" }),
+    deliveryPrice: doublePrecision("delivery_price")
         .default(0),
-    shippingPrice: doublePrecision("shipping_price")
-        .default(0),
-    totalOrderPrice: doublePrecision("total_order_price")
+    totalPrice: doublePrecision("total_price")
         .default(0),
     paymentMethodType: varchar("payment_method_type", { enum: ["cash", "card"] })
         .default("cash"),
+    status: varchar("status", {
+        enum: [
+            "pending", // pending
+            "cancelled", // by user
+            "rejected", // by paypal
+            "approved", // by paypal
+        ]
+    })
+        .default("pending"),
+    isPaid: boolean("isPaid")
+        .default(false),
     paidAt: timestamp("paidAt")
         .default(null),
     deliverdAt: timestamp("deliverd_at"),
-    // shippingAddress: alias("shipping_address", varchar("shipping_address", { length: 250 })),
+    // deliveryAddress: alias("delivery_address", varchar("shipping_address", { length: 250 })),
     createdAt: timestamp("created_at")
         .defaultNow(),
     createdBy: varchar("created_by", { enum: ["admin", "owner"] })
