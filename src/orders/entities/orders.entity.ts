@@ -31,7 +31,7 @@ export const OrdersEntity = pgTable("orders", {
             "pending", // pending
             "cancelled", // by user
             "rejected", // by paypal
-            "approved", // by paypal
+            "created", // by paypal
         ]
     })
         .default("pending"),

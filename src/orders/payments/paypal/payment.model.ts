@@ -1,19 +1,19 @@
 export enum Status {
-    APPROVED,
-    SUCCESS,
-    FAILED,
-    PENDING
+    "PENDING",
+    "CANCELLED",
+    "REJECTED",
+    "CREATED",
 }
 
 export interface Amount {
     currency_code: string;
     value: number;
-    breakdown?: {
+    breakdown: {
         item_total: {
             currency_code: string;
             value: number;
         },
-        shipping: {
+        shipping?: {
             currency_code: string;
             value: number;
         }
@@ -34,7 +34,7 @@ export interface Item {
 }
 
 export interface PurchaseUnit {
-    invoice_id: string;
+    reference_id: string;
     amount: Amount;
     items?: Item[];
 }
@@ -52,8 +52,8 @@ export interface PaymentSource {
     }
 }
 
-export interface PayPalInterface {
+export interface PaymentInterface {
     intent: string;
-    paymentSource: PaymentSource;
-    purchaseUnits: PurchaseUnit[];
+    payment_source?: PaymentSource;
+    purchase_units: PurchaseUnit[];
 }

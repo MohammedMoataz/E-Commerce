@@ -1,11 +1,11 @@
 import "dotenv/config"
 import { Injectable } from '@nestjs/common';
 
-import { PayPalInterface } from "./payment.model";
+import { PaymentInterface } from "./payment.model";
 
 @Injectable()
 export class PaymentService {
-    private paypalModel: PayPalInterface;
+    private paypalModel: PaymentInterface;
     private readonly baseUrl = process.env.PAYPAL_BASE_URL
 
     private async generateToken(): Promise<any> {
@@ -31,20 +31,8 @@ export class PaymentService {
         const url = this.baseUrl + '/v2/checkout/orders';
         this.paypalModel = {
             intent: "CAPTURE",
-            paymentSource: {
-                paypal: {
-                    experience_context: {
-                        cancel_url: "http://localhost:4000/cancel_url",
-                        return_url: "http://localhost:4000/return_url",
-                        landing_page: "LOGIN",
-                        payment_method_preference: "IMMEDIATE_PAYMENT_REQUIRED",
-                        shipping_preference: "NO_SHIPPING",
-                        user_action: "PAY_NOW"
-                    }
-                }
-            },
-            purchaseUnits: [{
-                invoice_id: "8r4ef5d1c2x0",
+            purchase_units: [{
+                reference_id: "8r4ef5d1c2x0",
                 items: [{
                     name: "Shoes",
                     description: "Running shoes",
@@ -53,13 +41,20 @@ export class PaymentService {
                         value: 100.00
                     },
                     quantity: 1,
-                    category: "category",
-                    image_url: "",
-                    url: ""
                 }],
                 amount: {
+                    breakdown: {
+                        item_total: {
+                            currency_code: "USD",
+                            value: 100.00
+                        },
+                        shipping: {
+                            currency_code: "USD",
+                            value: 10.00
+                        }
+                    },
                     currency_code: "USD",
-                    value: 100.00,
+                    value: 110.00,
                 },
             }],
         }
@@ -72,7 +67,8 @@ export class PaymentService {
             body: JSON.stringify(this.paypalModel)
         }
 
-        return await fetch(url, options)
-            .then(response => response.json())
+        return fetch(url, options)
+            .then(async response => response.json())
+            .catch(error => console.error("Error:", error));
     }
 }
