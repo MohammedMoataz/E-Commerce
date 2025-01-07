@@ -8,9 +8,7 @@ import { MailService } from './mail.service';
     MailerModule.forRootAsync({
       useFactory: async () => ({
         transport: {
-          service: process.env.MAIL_SERVICE,
           host: process.env.MAIL_HOST,
-          // port: process.env.MAIL_PORT,
           secure: process.env.MAIL_SECURE,
           auth: {
             type: 'login',

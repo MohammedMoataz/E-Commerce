@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
@@ -14,12 +13,11 @@ import { CartModule } from './cart/cart.module';
 import { CartItemsModule } from './cart_items/cart_items.module';
 import { CheckoutModule } from './checkout/checkout.module';
 import { MailModule } from './mail/mail.module';
-import { MailService } from './mail/mail.service';
 
 @Module({
   imports: [
-    UsersModule,
     AuthModule,
+    UsersModule,
     ProductsModule,
     OrdersModule,
     CategoriesModule,
@@ -31,6 +29,6 @@ import { MailService } from './mail/mail.service';
     MailModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, MailService],
+  providers: [AuthService],
 })
 export class AppModule { }

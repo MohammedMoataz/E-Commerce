@@ -36,4 +36,15 @@ export class AuthController {
   getProfile(@Request() req: any) {
     return req.user;
   }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('reset-password')
+  resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    return this.authService.resetPassword(resetPasswordDto);
+  }
+  
+  @Get('reset-password/:code')
+  verifyCode(@Param('code') code: string) {
+    return this.authService.verifyCode(code);
+  }
 }

@@ -1,16 +1,20 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 
-import { SignInDto, SignUpDto } from './dto/create-auth.dto';
+import { ResetPasswordDto, SignInDto, SignUpDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UserDto } from 'src/users/dto/user.dto';
 import { UsersService } from 'src/users/users.service';
-import { JwtService } from '@nestjs/jwt';
+import { MailService } from 'src/mail/mail.service';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class AuthService {
+  private verificationCode: string;
   constructor(
     private readonly jwtService: JwtService,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly MailService: MailService
   ) { }
 
   create(signUpDto: SignUpDto) {
@@ -36,6 +40,22 @@ export class AuthService {
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto) {
+    this.verificationCode = randomUUID().slice(0, 6);
+    const result = await this.MailService.sendEmail(resetPasswordDto.email, "Reset Password", this.verificationCode);
+
+    console.log(result);
+    if (result.accepted[0] === resetPasswordDto.email) {
+      return "Email was sent successfully";
+    }
+  }
+
+  async verifyCode(code: string) {
+    if (code.localeCompare(this.verificationCode) === 0) {
+      return true;
+    }
   }
 
   update(id: string, updateAuthDto: UpdateAuthDto) {
