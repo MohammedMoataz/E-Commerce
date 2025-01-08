@@ -1,13 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { desc, eq } from 'drizzle-orm';
+import {
+  desc,
+  eq
+} from 'drizzle-orm';
 
 import db from 'src/infrastructure/config/db/db.config';
 import { UsersEntity } from './entities/users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LoggerService } from 'src/logger/logger.service';
 
 @Injectable()
 export class UsersService {
+  constructor(private readonly loggerService: LoggerService) { }
+
   async create(createUserDto: CreateUserDto) {
     return await db
       .insert(UsersEntity)
@@ -19,6 +25,8 @@ export class UsersService {
   }
 
   async findAll() {
+    this.loggerService.log(`findAll`);
+    this.loggerService.error(`indAll`);
     return await db
       .select()
       .from(UsersEntity)

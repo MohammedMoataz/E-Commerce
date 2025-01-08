@@ -13,6 +13,7 @@ import { CartModule } from './cart/cart.module';
 import { CartItemsModule } from './cart_items/cart_items.module';
 import { CheckoutModule } from './checkout/checkout.module';
 import { MailModule } from './mail/mail.module';
+import { LoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { MailModule } from './mail/mail.module';
     CartItemsModule,
     CheckoutModule,
     MailModule,
+    LoggerModule,
   ],
   controllers: [AuthController],
   providers: [AuthService],
