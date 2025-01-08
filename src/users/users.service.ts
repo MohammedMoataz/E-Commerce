@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { desc, eq } from 'drizzle-orm';
 
-import db from 'src/infrastructure/config/db.config';
+import db from 'src/infrastructure/config/db/db.config';
 import { UsersEntity } from './entities/users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';

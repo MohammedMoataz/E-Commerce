@@ -40,10 +40,12 @@
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.38.3",
     "helmet": "^8.0.0",
+    "nest-winston": "^1.9.7",
     "nodemailer": "^6.9.16",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
