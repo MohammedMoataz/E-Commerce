@@ -12,7 +12,6 @@ export const UsersEntity = pgTable("users", {
     id: uuid("id")
         .primaryKey()
         .defaultRandom(),
-    _id: serial("_id"),
     firstName: varchar("first_name", { length: 50 }),
     lastName: varchar("last_name", { length: 50 }),
     email: varchar("email", { length: 255 }),

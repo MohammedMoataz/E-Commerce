@@ -4,6 +4,6 @@ import { drizzle } from 'drizzle-orm/neon-http';
 
 const DATABASE_URL = process.env.DATABASE_URL! as string;
 const sql = neon(DATABASE_URL);
-const db = drizzle({ client: sql });
+const db = drizzle(sql);
 
 export default db;

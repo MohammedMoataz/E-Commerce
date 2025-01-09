@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1735852088527,
-      "tag": "0000_mysterious_nightmare",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1735866246215,
-      "tag": "0001_legal_lester",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1735867263283,
-      "tag": "0002_flashy_gamma_corps",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1735937569706,
-      "tag": "0003_chilly_warbird",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1736045836628,
-      "tag": "0004_lush_ben_parker",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1736290210841,
-      "tag": "0005_normal_hydra",
+      "when": 1736462090199,
+      "tag": "0000_rapid_spirit",
       "breakpoints": true
     }
   ]

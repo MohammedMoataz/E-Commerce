@@ -13,7 +13,6 @@ export const ReviewsEntity = pgTable("reviews", {
     id: uuid("id")
         .primaryKey()
         .defaultRandom(),
-    _id: serial("_id"),
     // userId: integer("user_id")
     //     .references(() => UsersEntity._id, { onUpdate: "cascade", onDelete: "cascade" }),
     // productId: integer("product_id")

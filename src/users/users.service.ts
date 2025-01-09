@@ -29,8 +29,7 @@ export class UsersService {
     this.loggerService.error(`indAll`);
     return await db
       .select()
-      .from(UsersEntity)
-      .orderBy(desc(UsersEntity._id));
+      .from(UsersEntity);
   }
 
   async findOne(id: string): Promise<any> {

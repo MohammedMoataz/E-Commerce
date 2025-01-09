@@ -10,7 +10,6 @@ export const CategoriesEntity = pgTable("categories", {
     id: uuid("id")
         .primaryKey()
         .defaultRandom(),
-    _id: serial("_id"),
     name: varchar("name", { length: 250 }),
     image: varchar("image", { length: 250 })
         .default(null),

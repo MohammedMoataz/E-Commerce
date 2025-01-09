@@ -11,7 +11,6 @@ export const OrdersEntity = pgTable("cart", {
     id: uuid("id")
         .primaryKey()
         .defaultRandom(),
-    _id: serial("_id"),
     // userId: integer("user_id")
     //     .references(() => UsersEntity._id, { onUpdate: "cascade", onDelete: "cascade" }),
     // orderId: integer("order_id")

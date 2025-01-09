@@ -12,7 +12,6 @@ export const ProductsImagesEntity = pgTable("products_Images", {
     id: uuid("id")
         .primaryKey()
         .defaultRandom(),
-    _id: serial("_id"),
     // productId: integer("product_id")
     //     .references(() => ProductsEntity._id, { onUpdate: "cascade", onDelete: "cascade" }),
     image: varchar("image", { length: 250 }),
