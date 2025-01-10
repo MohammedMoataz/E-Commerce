@@ -15,13 +15,7 @@ export class UsersService {
   constructor(private readonly loggerService: LoggerService) { }
 
   async create(createUserDto: CreateUserDto) {
-    return await db
-      .insert(UsersEntity)
-      .values({
-        ...createUserDto,
-        passwordHash: createUserDto.password
-      })
-      .returning()
+    return "users create user with "
   }
 
   async findAll() {

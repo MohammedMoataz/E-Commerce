@@ -1,13 +1,13 @@
+import { relations, sql } from "drizzle-orm";
 import {
     pgTable,
-    serial,
     timestamp,
     varchar,
     uuid,
-    integer,
-    doublePrecision,
-    jsonb,
     boolean,
+    check,
+    numeric,
+    index,
 } from "drizzle-orm/pg-core";
 import { UsersEntity } from "src/users/entities/users.entity";
 
@@ -15,41 +15,58 @@ export const OrdersEntity = pgTable("orders", {
     id: uuid("id")
         .primaryKey()
         .defaultRandom(),
-    // userId: integer("user_id")
-    //     .references(() => UsersEntity._id, { onUpdate: "cascade", onDelete: "cascade" }),
-    // cartId: integer("cart_id")
-    //     .references(() => UsersEntity._id, { onUpdate: "cascade", onDelete: "cascade" }),
-    deliveryPrice: doublePrecision("delivery_price")
-        .default(0),
-    totalPrice: doublePrecision("total_price")
-        .default(0),
-    paymentMethodType: varchar("payment_method_type", { enum: ["cash", "card"] })
+    userId: uuid("user_id")
+        .notNull(),
+    paymentMethodType: varchar("payment_method_type", {
+        enum: [
+            "cash",
+            "credit_card",
+            "paypal",
+        ]
+    })
         .default("cash"),
     status: varchar("status", {
         enum: [
-            "pending", // pending
-            "cancelled", // by user
-            "rejected", // by paypal
-            "created", // by paypal
+            "pending",
+            "processing",
+            "shipped",
+            "delivered",
+            "canceled",
         ]
     })
         .default("pending"),
-    isPaid: boolean("isPaid")
+    shippingAt: timestamp("shipping_at"),
+    shippingAddress: varchar("shipping_address", { length: 250 }),
+    shippingPrice: numeric("shipping_price")
+        .default("0.0"),
+    totalPrice: numeric("total_price")
+        .default("0.0"),
+    isPaid: boolean("is_paid")
         .default(false),
-    paidAt: timestamp("paidAt")
+    paidAt: timestamp("paid_at")
         .default(null),
-    deliverdAt: timestamp("deliverd_at"),
-    // deliveryAddress: alias("delivery_address", varchar("shipping_address", { length: 250 })),
     createdAt: timestamp("created_at")
         .defaultNow(),
-    createdBy: varchar("created_by", { enum: ["admin", "owner"] })
-        .default("admin"),
+    createdBy: uuid("created_by")
+        .default(null),
     updatedAt: timestamp("updated_at")
         .default(null),
-    updatedBy: varchar("updated_by", { enum: ["admin", "owner"] })
-        .default("admin"),
+    updatedBy: uuid("updated_by")
+        .default(null),
     deletedAt: timestamp("deleted_at")
         .default(null),
-    deletedBy: varchar("deleted_by", { enum: ["admin", "owner"] })
-        .default("admin"),
-});
+    deletedBy: uuid("deleted_by")
+        .default(null),
+}, self => [
+    check("orders_shipping_price_constraints", sql`${self.shippingPrice} >= 0`),
+    check("orders_total_price_constraints", sql`${self.totalPrice} >= 0`),
+    index("orders_payment_method_type").on(self.paymentMethodType),
+    index("orders_status").on(self.status),
+    relations(OrdersEntity, ({ one }) => ({
+        user: one(UsersEntity, {
+            fields: [OrdersEntity.user_id],
+            references: [UsersEntity.id],
+            relationName: "user_id"
+        })
+    }))
+]);

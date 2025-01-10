@@ -1,6 +1,6 @@
 {
-  "id": "3d0b18bc-732b-47cb-b0b4-465687cf929e",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "f4a8e77c-b736-441c-940f-50673c8583b7",
+  "prevId": "3d0b18bc-732b-47cb-b0b4-465687cf929e",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -101,6 +101,18 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
+        "product_id": {
+          "name": "product_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cart_id": {
+          "name": "cart_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
         "quantity": {
           "name": "quantity",
           "type": "integer",
@@ -185,6 +197,12 @@
           "primaryKey": true,
           "notNull": true,
           "default": "gen_random_uuid()"
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
         },
         "total_amount": {
           "name": "total_amount",
@@ -370,6 +388,12 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
         "payment_method_type": {
           "name": "payment_method_type",
           "type": "varchar",
@@ -526,6 +550,12 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
+        "product_id": {
+          "name": "product_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
         "image": {
           "name": "image",
           "type": "text",
@@ -593,6 +623,12 @@
           "primaryKey": true,
           "notNull": true,
           "default": "gen_random_uuid()"
+        },
+        "category_id": {
+          "name": "category_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
         },
         "title": {
           "name": "title",

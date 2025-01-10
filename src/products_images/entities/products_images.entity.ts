@@ -1,30 +1,37 @@
+import { relations } from "drizzle-orm";
 import {
     pgTable,
-    serial,
     timestamp,
-    varchar,
     uuid,
-    integer,
+    text,
 } from "drizzle-orm/pg-core";
 import { ProductsEntity } from "src/products/entities/products.entity";
 
-export const ProductsImagesEntity = pgTable("products_Images", {
+export const ProductsImagesEntity = pgTable("products_images", {
     id: uuid("id")
         .primaryKey()
         .defaultRandom(),
-    // productId: integer("product_id")
-    //     .references(() => ProductsEntity._id, { onUpdate: "cascade", onDelete: "cascade" }),
-    image: varchar("image", { length: 250 }),
+    productId: uuid("product_id")
+        .notNull(),
+    image: text("image"),
     createdAt: timestamp("created_at")
         .defaultNow(),
-    createdBy: varchar("created_by", { enum: ["admin", "owner"] })
-        .default("admin"),
+    createdBy: uuid("created_by")
+        .default(null),
     updatedAt: timestamp("updated_at")
         .default(null),
-    updatedBy: varchar("updated_by", { enum: ["admin", "owner"] })
-        .default("admin"),
+    updatedBy: uuid("updated_by")
+        .default(null),
     deletedAt: timestamp("deleted_at")
         .default(null),
-    deletedBy: varchar("deleted_by", { enum: ["admin", "owner"] })
-        .default("admin"),
-});
+    deletedBy: uuid("deleted_by")
+        .default(null),
+}, self => [
+    relations(ProductsImagesEntity, ({ one }) => ({
+        cart: one(ProductsEntity, {
+            fields: [ProductsImagesEntity.productId],
+            references: [ProductsEntity.id],
+            relationName: 'product_id'
+        }),
+    }))
+]);
