@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import {
-  desc,
   eq
 } from 'drizzle-orm';
 

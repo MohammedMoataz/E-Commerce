@@ -1,16 +1,18 @@
+import { relations } from "drizzle-orm";
 import {
     pgTable,
     timestamp,
     varchar,
-    uuid,
     text,
     index,
+    integer,
 } from "drizzle-orm/pg-core";
+import { ProductsEntity } from "src/products/entities/products.entity";
 
 export const CategoriesEntity = pgTable("categories", {
-    id: uuid("id")
+    id: integer("id")
         .primaryKey()
-        .defaultRandom(),
+        .generatedByDefaultAsIdentity(),
     name: varchar("name", { length: 250 })
         .notNull()
         .unique(),
@@ -18,16 +20,14 @@ export const CategoriesEntity = pgTable("categories", {
         .default(null),
     createdAt: timestamp("created_at")
         .defaultNow(),
-    createdBy: uuid("created_by")
-        .default(null),
     updatedAt: timestamp("updated_at")
-        .default(null),
-    updatedBy: uuid("updated_by")
         .default(null),
     deletedAt: timestamp("deleted_at")
         .default(null),
-    deletedBy: uuid("deleted_by")
-        .default(null),
 }, self => [
     index("categories_name_idx").on(self.name),
+
+    relations(CategoriesEntity, ({ many }) => ({
+        products: many(ProductsEntity),
+    }))
 ]);

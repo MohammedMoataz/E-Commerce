@@ -1,18 +1,26 @@
-import { relations, sql } from "drizzle-orm";
+import {
+    relations,
+    sql
+} from "drizzle-orm";
 import {
     pgTable,
     timestamp,
     uuid,
     check,
     numeric,
+    integer,
+    foreignKey,
 } from "drizzle-orm/pg-core";
+import { OrdersEntity } from "src/orders/entities/orders.entity";
 import { UsersEntity } from "src/users/entities/users.entity";
 
 export const CartEntity = pgTable("cart", {
-    id: uuid("id")
+    id: integer("id")
         .primaryKey()
-        .defaultRandom(),
+        .generatedByDefaultAsIdentity(),
     userId: uuid("user_id")
+        .notNull(),
+    orderId: integer("order_id")
         .notNull(),
     totalAmount: numeric("total_amount")
         .default("0.0"),
@@ -20,24 +28,33 @@ export const CartEntity = pgTable("cart", {
         .default("0.0"),
     createdAt: timestamp("created_at")
         .defaultNow(),
-    createdBy: uuid("created_by")
-        .default(null),
     updatedAt: timestamp("updated_at")
         .default(null),
-    updatedBy: uuid("updated_by")
-        .default(null),
     deletedAt: timestamp("deleted_at")
-        .default(null),
-    deletedBy: uuid("deleted_by")
         .default(null),
 }, self => [
     check("cart_total_amount_constraints", sql`${self.totalAmount} >= 0`),
     check("cart_total_discount_constraints", sql`${self.totalDiscount} >= 0`),
+
+    foreignKey({
+        name: "cart_user_id_fk",
+        columns: [self.userId],
+        foreignColumns: [UsersEntity.id]
+    }),
+    foreignKey({
+        name: "cart_order_id_fk",
+        columns: [self.orderId],
+        foreignColumns: [OrdersEntity.id]
+    }),
+
     relations(CartEntity, ({ one }) => ({
         user: one(UsersEntity, {
-            fields: [CartEntity.user_id],
-            references: [UsersEntity.id],
-            relationName: "user_id"
-        })
+            fields: [self.userId],
+            references: [UsersEntity.id]
+        }),
+        order: one(OrdersEntity, {
+            fields: [self.orderId],
+            references: [OrdersEntity.id]
+        }),
     }))
 ]);

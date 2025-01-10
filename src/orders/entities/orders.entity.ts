@@ -1,4 +1,7 @@
-import { relations, sql } from "drizzle-orm";
+import {
+    relations,
+    sql
+} from "drizzle-orm";
 import {
     pgTable,
     timestamp,
@@ -8,14 +11,19 @@ import {
     check,
     numeric,
     index,
+    integer,
+    foreignKey,
 } from "drizzle-orm/pg-core";
+import { CartEntity } from "src/cart/entities/cart.entity";
 import { UsersEntity } from "src/users/entities/users.entity";
 
 export const OrdersEntity = pgTable("orders", {
-    id: uuid("id")
+    id: integer("id")
         .primaryKey()
-        .defaultRandom(),
-    userId: uuid("user_id")
+        .generatedByDefaultAsIdentity(),
+    ownerId: uuid("owner_id")
+        .notNull(),
+    cartId: integer("cart_id")
         .notNull(),
     paymentMethodType: varchar("payment_method_type", {
         enum: [
@@ -47,26 +55,69 @@ export const OrdersEntity = pgTable("orders", {
         .default(null),
     createdAt: timestamp("created_at")
         .defaultNow(),
-    createdBy: uuid("created_by")
+    _createdBy: uuid("created_by")
         .default(null),
     updatedAt: timestamp("updated_at")
         .default(null),
-    updatedBy: uuid("updated_by")
+    _updatedBy: uuid("updated_by")
         .default(null),
     deletedAt: timestamp("deleted_at")
         .default(null),
-    deletedBy: uuid("deleted_by")
+    _deletedBy: uuid("deleted_by")
         .default(null),
 }, self => [
     check("orders_shipping_price_constraints", sql`${self.shippingPrice} >= 0`),
     check("orders_total_price_constraints", sql`${self.totalPrice} >= 0`),
+
     index("orders_payment_method_type").on(self.paymentMethodType),
     index("orders_status").on(self.status),
+
+    foreignKey({
+        name: "order_owner_id_fk",
+        columns: [self.ownerId],
+        foreignColumns: [UsersEntity.id]
+    }),
+    foreignKey({
+        name: "order_cart_id_fk",
+        columns: [self.cartId],
+        foreignColumns: [CartEntity.id]
+    }),
+    foreignKey({
+        name: "order_created_by_id_fk",
+        columns: [self._createdBy],
+        foreignColumns: [UsersEntity.id]
+    }),
+    foreignKey({
+        name: "order_updated_by_id_fk",
+        columns: [self._updatedBy],
+        foreignColumns: [UsersEntity.id]
+    }),
+    foreignKey({
+        name: "order_deleted_by_id_fk",
+        columns: [self._deletedBy],
+        foreignColumns: [UsersEntity.id]
+    }),
+
     relations(OrdersEntity, ({ one }) => ({
-        user: one(UsersEntity, {
-            fields: [OrdersEntity.user_id],
-            references: [UsersEntity.id],
-            relationName: "user_id"
-        })
+        owner: one(UsersEntity, {
+            fields: [self.ownerId],
+            references: [UsersEntity.id]
+        }),
+        cart: one(CartEntity, {
+            fields: [self.cartId],
+            references: [CartEntity.id]
+        }),
+        createdBy: one(UsersEntity, {
+            fields: [self._createdBy],
+            references: [UsersEntity.id]
+        }),
+        updatedBy: one(UsersEntity, {
+            fields: [self._updatedBy],
+            references: [UsersEntity.id]
+        }),
+        deletedBy: one(UsersEntity, {
+            fields: [self._deletedBy],
+            references: [UsersEntity.id]
+        }),
     }))
 ]);
