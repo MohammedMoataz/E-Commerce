@@ -1,6 +1,7 @@
 import {
     relations,
-    sql
+    sql,
+    View
 } from "drizzle-orm";
 import {
     integer,
