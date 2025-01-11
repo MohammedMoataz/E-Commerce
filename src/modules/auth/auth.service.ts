@@ -3,18 +3,12 @@ import {
   UnauthorizedException
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import {
-  randomUUID,
-  UUID
-} from 'crypto';
+import { randomUUID } from 'crypto';
 
 import {
   ResetPasswordDto,
   SignInDto,
-  SignUpDto
-} from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
-import { UserDto } from 'src/modules/users/dto/user.dto';
+} from './dto/auth.dto';
 import { MailService } from 'src/common/helpers/mail/mail.service';
 import { UsersService } from '../users/users.service';
 
@@ -25,18 +19,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
   ) { }
-
-  create(signUpDto: SignUpDto) {
-    return 'This action adds a new auth';
-  }
-
-  findAll() {
-    return `This action returns all auth`;
-  }
-
-  async findOne(id: UUID): Promise<UserDto> {
-    return this.usersService.findOne(id);
-  }
 
   async signIn(
     signInDto: SignInDto
@@ -68,13 +50,5 @@ export class AuthService {
     if (code.localeCompare(this.verificationCode) === 0) {
       return true;
     }
-  }
-
-  update(id: string, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: string) {
-    return `This action removes a #${id} auth`;
   }
 }

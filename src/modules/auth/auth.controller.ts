@@ -14,7 +14,7 @@ import { AuthService } from './auth.service';
 import {
   SignInDto,
   ResetPasswordDto
-} from './dto/create-auth.dto';
+} from './dto/auth.dto';
 import { AuthGuard } from 'src/common/guards/jwt.guard';
 
 @Controller()
