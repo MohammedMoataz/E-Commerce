@@ -3,6 +3,7 @@ import { sql } from "drizzle-orm";
 import db from "src/infrastructure/config/db/db.config";
 import { Review } from "./entities/review.entity";
 import { GenericRepository } from "src/common/repositories/generic.repository";
+import { UpdateReviewDto } from "./dto/delete-review.dto";
 
 export class ReviewsRepository implements GenericRepository {
     async create(data: typeof Review.$inferInsert) {
@@ -17,17 +18,17 @@ export class ReviewsRepository implements GenericRepository {
             .from(Review);
     }
 
-    async findOne(id: number): Promise<any> {
+    async findOneById(id: number): Promise<any> {
         return await db
             .select()
             .from(Review)
             .where(sql`${Review.id} = ${id}`)
     }
 
-    async update(id: number, data: any): Promise<any> {
+    async update(id: number, data: UpdateReviewDto): Promise<any> {
         return await db
             .update(Review)
-            .set({ ...data, })
+            .set({ ...data })
             .where(sql`${Review.id} = ${id}`);
     }
 

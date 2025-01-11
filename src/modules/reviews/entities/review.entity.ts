@@ -19,23 +19,25 @@ export const Review = pgTable("reviews", {
     id: integer("id")
         .primaryKey()
         .generatedByDefaultAsIdentity(),
-    userId: uuid("user_id"),
-    productId: integer("product_id"),
+    userId: uuid("user_id")
+        .notNull(),
+    productId: integer("product_id")
+        .notNull(),
     content: text("content")
         .default(null),
     rating: integer("rate")
-        .default(0),
+        .notNull(),
     createdAt: timestamp("created_at")
         .defaultNow(),
-    _createdBy: uuid("created_by")
+    createdBy: uuid("created_by")
         .default(null),
     updatedAt: timestamp("updated_at")
         .default(null),
-    _updatedBy: uuid("updated_by")
+    updatedBy: uuid("updated_by")
         .default(null),
     deletedAt: timestamp("deleted_at")
         .default(null),
-    _deletedBy: uuid("deleted_by")
+    deletedBy: uuid("deleted_by")
         .default(null),
 }, self => [
     check("reviews_rate_constraints", sql`${self.rating} BETWEEN 1 AND 5`),
@@ -52,17 +54,17 @@ export const Review = pgTable("reviews", {
     }),
     foreignKey({
         name: "review_created_by_id_fk",
-        columns: [self._createdBy],
+        columns: [self.createdBy],
         foreignColumns: [User.id]
     }),
     foreignKey({
         name: "review_updated_by_id_fk",
-        columns: [self._updatedBy],
+        columns: [self.updatedBy],
         foreignColumns: [User.id]
     }),
     foreignKey({
         name: "review_deleted_by_id_fk",
-        columns: [self._deletedBy],
+        columns: [self.deletedBy],
         foreignColumns: [User.id]
     }),
 
@@ -76,15 +78,15 @@ export const Review = pgTable("reviews", {
             references: [Product.id]
         }),
         createdBy: one(User, {
-            fields: [self._createdBy],
+            fields: [self.createdBy],
             references: [User.id]
         }),
         updatedBy: one(User, {
-            fields: [self._updatedBy],
+            fields: [self.updatedBy],
             references: [User.id]
         }),
         deletedBy: one(User, {
-            fields: [self._deletedBy],
+            fields: [self.deletedBy],
             references: [User.id]
         }),
     }))

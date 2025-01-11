@@ -16,7 +16,9 @@ export class ReviewsService {
 
   async create(createReviewDto: CreateReviewDto) {
     return await this.reviewsRepository.create({
-      id: createReviewDto.id,
+      productId: createReviewDto.productId,
+      userId: createReviewDto.userId,
+      rating: createReviewDto.rating,
       ...createReviewDto,
     });
   }
@@ -26,7 +28,7 @@ export class ReviewsService {
   }
 
   async findOne(id: number) {
-    return await this.reviewsRepository.findOne(id);
+    return await this.reviewsRepository.findOneById(id);
   }
 
   async update(id: number, updateReviewDto: UpdateReviewDto) {
