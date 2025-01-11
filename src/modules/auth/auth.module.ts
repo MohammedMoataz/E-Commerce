@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { MailService } from 'src/common/utils/mail/mail.service';
+import { MailService } from 'src/common/helpers/mail/mail.service';
 import { UsersModule } from '../users/users.module';
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;

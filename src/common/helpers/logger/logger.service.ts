@@ -13,22 +13,18 @@ enum LogLevel {
 
 @Injectable()
 export class LoggerService {
-  private readonly logger: Logger;
+  private static readonly logger: Logger = createLogger(winstonCofig);
 
-  constructor() {
-    this.logger = createLogger(winstonCofig);
-  }
-
-  log(message: string) {
-    this.logger.info({
+  static log(message: string) {
+    LoggerService.logger.info({
       timestamp: new Date().toISOString(),
       level: LogLevel.INFO,
       message
     });
   }
 
-  error(message: string) {
-    this.logger.error({
+  static error(message: string) {
+    LoggerService.logger.error({
       timestamp: new Date().toISOString(),
       level: LogLevel.ERROR,
       message

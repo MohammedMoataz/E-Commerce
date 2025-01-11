@@ -15,7 +15,7 @@ import {
 } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UserDto } from 'src/modules/users/dto/user.dto';
-import { MailService } from 'src/common/utils/mail/mail.service';
+import { MailService } from 'src/common/helpers/mail/mail.service';
 import { UsersService } from '../users/users.service';
 
 @Injectable()
@@ -24,7 +24,6 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
-    private readonly MailService: MailService
   ) { }
 
   create(signUpDto: SignUpDto) {
@@ -57,7 +56,7 @@ export class AuthService {
 
   async resetPassword(resetPasswordDto: ResetPasswordDto) {
     this.verificationCode = randomUUID().slice(0, 6);
-    const result = await this.MailService.sendEmail(resetPasswordDto.email, "Reset Password", this.verificationCode);
+    const result = await MailService.sendEmail(resetPasswordDto.email, "Reset Password", this.verificationCode);
 
     console.log(result);
     if (result.accepted[0] === resetPasswordDto.email) {

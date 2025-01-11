@@ -15,8 +15,8 @@ import { CartItemsModule } from './modules/cart_items/cart_items.module';
 import { CartModule } from './modules/cart/cart.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
-import { MailModule } from './common/utils/mail/mail.module';
-import { LoggerModule } from './common/utils/logger/logger.module';
+import { MailModule } from './common/helpers/mail/mail.module';
+import { LoggerModule } from './common/helpers/logger/logger.module';
 
 @Module({
   imports: [

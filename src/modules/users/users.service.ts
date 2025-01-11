@@ -10,18 +10,17 @@ import { User } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { LoggerService } from 'src/common/utils/logger/logger.service';
+import { LoggerService } from 'src/common/helpers/logger/logger.service';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private readonly loggerService: LoggerService,
     @Inject(UsersRepository)
     private readonly usersRepository: UsersRepository
   ) { }
 
   async create(createUserDto: CreateUserDto) {
-    this.loggerService.log(`Creating user: ${createUserDto.email}`);
+    LoggerService.log(`Creating user: ${createUserDto.email}`);
     return await this.usersRepository.create({
       email: createUserDto.email,
       username: createUserDto.username,
