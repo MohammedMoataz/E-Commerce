@@ -18,8 +18,6 @@ export const ProductImage = pgTable("products_images", {
     image: text("image"),
     createdAt: timestamp("created_at")
         .defaultNow(),
-    updatedAt: timestamp("updated_at")
-        .default(null),
     deletedAt: timestamp("deleted_at")
         .default(null),
 }, self => [

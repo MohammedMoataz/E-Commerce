@@ -17,7 +17,7 @@ export class ProductsImagesRepository implements GenericRepository {
             .from(ProductImage);
     }
 
-    async findOne(id: number): Promise<any> {
+    async findOneById(id: number): Promise<any> {
         return await db
             .select()
             .from(ProductImage)
@@ -34,6 +34,6 @@ export class ProductsImagesRepository implements GenericRepository {
     async remove(id: number): Promise<any> {
         return await db
             .delete(ProductImage)
-            .where(sql`${ProductImage.id} = ${id}`);
+            .where(sql`${ProductImage.id} = ${id}`)
     }
 }

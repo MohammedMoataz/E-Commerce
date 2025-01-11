@@ -10,7 +10,6 @@ import {
 
 import { ProductsImagesService } from './products_images.service';
 import { CreateProductImageDto } from './dto/create-product_image.dto';
-import { UpdateProductImageDto } from './dto/update-product_image.dto';
 
 @Controller('products-images')
 export class ProductsImagesController {
@@ -27,17 +26,12 @@ export class ProductsImagesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsImagesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductImageDto: UpdateProductImageDto) {
-    return this.productsImagesService.update(+id, updateProductImageDto);
+  findOne(@Param('id') id: number) {
+    return this.productsImagesService.findOne(id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsImagesService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.productsImagesService.remove(id);
   }
 }

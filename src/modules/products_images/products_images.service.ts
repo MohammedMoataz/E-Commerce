@@ -5,7 +5,6 @@ import {
 
 import { ProductsImagesRepository } from './products_images.repository';
 import { CreateProductImageDto } from './dto/create-product_image.dto';
-import { UpdateProductImageDto } from './dto/update-product_image.dto';
 
 @Injectable()
 export class ProductsImagesService {
@@ -27,11 +26,7 @@ export class ProductsImagesService {
   }
 
   findOne(id: number) {
-    return this.ProductsImagesRepository.findOne(id);
-  }
-
-  update(id: number, updateProductImageDto: UpdateProductImageDto) {
-    return this.ProductsImagesRepository.update(id, updateProductImageDto);
+    return this.ProductsImagesRepository.findOneById(id);
   }
 
   remove(id: number) {
