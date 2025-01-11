@@ -4,40 +4,35 @@ import {
   NestModule
 } from '@nestjs/common';
 
-import { AuthModule } from './auth/auth.module';
-import { AuthController } from './auth/auth.controller';
-import { AuthService } from './auth/auth.service';
-import { UsersModule } from './users/users.module';
-import { ProductsModule } from './products/products.module';
-import { OrdersModule } from './orders/orders.module';
-import { CategoriesModule } from './categories/categories.module';
-import { ReviewsModule } from './reviews/reviews.module';
-import { ProductsImagesModule } from './products_images/products_images.module';
-import { CartModule } from './cart/cart.module';
-import { CartItemsModule } from './cart_items/cart_items.module';
-import { CheckoutModule } from './checkout/checkout.module';
-import { MailModule } from './mail/mail.module';
 import { ErrorHandlerMiddleware } from './common/middlewares/error_handler.middleware';
-import { LoggerModule } from './logger/logger.module';
-import { LoggerService } from './logger/logger.service';
+import { AuthModule } from './modules/auth/auth.module';
+import { AuditModule } from './modules/audit/audit.module';
+import { UsersModule } from './modules/users/users.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { ProductsModule } from './modules/products/products.module';
+import { ProductsImagesModule } from './modules/products_images/products_images.module';
+import { CartItemsModule } from './modules/cart_items/cart_items.module';
+import { CartModule } from './modules/cart/cart.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
+import { MailModule } from './common/utils/mail/mail.module';
+import { LoggerModule } from './common/utils/logger/logger.module';
 
 @Module({
   imports: [
     AuthModule,
+    AuditModule,
     UsersModule,
-    ProductsModule,
-    OrdersModule,
     CategoriesModule,
-    ReviewsModule,
+    ProductsModule,
     ProductsImagesModule,
-    CartModule,
     CartItemsModule,
-    CheckoutModule,
+    CartModule,
+    OrdersModule,
+    ReviewsModule,
     MailModule,
     LoggerModule,
   ],
-  controllers: [AuthController],
-  providers: [AuthService, LoggerService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
