@@ -3,6 +3,7 @@ import { sql } from "drizzle-orm";
 import db from "src/infrastructure/config/db/db.config";
 import { ProductImage } from "./entities/product_images.entity";
 import { GenericRepository } from "src/common/repositories/generic.repository";
+import { DeleteProductImageDto } from "./dto/delete-product_image.dto";
 
 export class ProductsImagesRepository implements GenericRepository {
     async create(data: typeof ProductImage.$inferInsert) {
@@ -24,7 +25,7 @@ export class ProductsImagesRepository implements GenericRepository {
             .where(sql`${ProductImage.id} = ${id}`)
     }
 
-    async update(id: number, data: any): Promise<any> {
+    async update(id: number, data: DeleteProductImageDto): Promise<any> {
         return await db
             .update(ProductImage)
             .set({ ...data })
