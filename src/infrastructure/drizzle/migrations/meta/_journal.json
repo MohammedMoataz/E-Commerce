@@ -8,6 +8,13 @@
       "when": 1736545120944,
       "tag": "0000_crazy_kulan_gath",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1736636692201,
+      "tag": "0001_classy_beyonder",
+      "breakpoints": true
     }
   ]
 }
