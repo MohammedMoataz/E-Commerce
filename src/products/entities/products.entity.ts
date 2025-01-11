@@ -16,7 +16,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { CategoriesEntity } from "src/categories/entities/categories.entity";
 import { ProductsImagesEntity } from "src/products_images/entities/products_images.entity";
-import { ReviewsEntity } from "src/reviews/entities/review.entity";
+import { ReviewsEntity } from "src/reviews/entities/reviews.entity";
 import { UsersEntity } from "src/users/entities/users.entity";
 
 export const ProductsEntity = pgTable("products", {

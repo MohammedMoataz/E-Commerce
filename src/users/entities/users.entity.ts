@@ -16,7 +16,7 @@ import {
 import { AuditEntity } from "src/audit/entities/audit.entity";
 import { OrdersEntity } from "src/orders/entities/orders.entity";
 import { ProductsEntity } from "src/products/entities/products.entity";
-import { ReviewsEntity } from "src/reviews/entities/review.entity";
+import { ReviewsEntity } from "src/reviews/entities/reviews.entity";
 
 export const UsersEntity = pgTable("users", {
     id: uuid("id")

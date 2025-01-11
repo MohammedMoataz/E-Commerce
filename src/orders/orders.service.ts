@@ -1,29 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { PaymentService } from './payments/paypal/payment.service';
+import { OrdersRepository } from './orders.repository';
 
 @Injectable()
 export class OrdersService {
-  constructor(private readonly paymentService: PaymentService) { }
+  constructor(
+    @Inject()
+    private readonly paymentService: PaymentService,
+    @Inject()
+    private readonly ordersRepository: OrdersRepository
+  ) { }
 
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+  async create(createOrderDto: CreateOrderDto) {
+    return await this.ordersRepository.create(createOrderDto)
   }
 
   async findAll() {
-    return await this.paymentService.checkoutOrder();
+    return await this.ordersRepository.findAll()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    return await this.ordersRepository.findOne(id);
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    return await this.ordersRepository.update(id, updateOrderDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async remove(id: number) {
+    return await this.ordersRepository.remove(id);
   }
 }

@@ -1,4 +1,8 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule
+} from '@nestjs/common';
 
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
@@ -13,6 +17,9 @@ import { CartModule } from './cart/cart.module';
 import { CartItemsModule } from './cart_items/cart_items.module';
 import { CheckoutModule } from './checkout/checkout.module';
 import { MailModule } from './mail/mail.module';
+import { ErrorHandlerMiddleware } from './common/middlewares/error_handler.middleware';
+import { LoggerModule } from './logger/logger.module';
+import { LoggerService } from './logger/logger.service';
 
 @Module({
   imports: [
@@ -27,8 +34,15 @@ import { MailModule } from './mail/mail.module';
     CartItemsModule,
     CheckoutModule,
     MailModule,
+    LoggerModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, LoggerService],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(ErrorHandlerMiddleware)
+      .forRoutes('*');
+  }
+}

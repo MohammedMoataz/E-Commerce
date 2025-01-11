@@ -6,7 +6,7 @@ import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UserDto } from 'src/users/dto/user.dto';
 import { UsersService } from 'src/users/users.service';
 import { MailService } from 'src/mail/mail.service';
-import { randomUUID } from 'crypto';
+import { randomUUID, UUID } from 'crypto';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +25,7 @@ export class AuthService {
     return `This action returns all auth`;
   }
 
-  async findOne(id: string): Promise<UserDto> {
+  async findOne(id: UUID): Promise<UserDto> {
     return this.usersService.findOne(id);
   }
 

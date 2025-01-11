@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {
   eq
 } from 'drizzle-orm';
@@ -8,28 +8,35 @@ import { UsersEntity } from './entities/users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoggerService } from 'src/logger/logger.service';
+import { UsersRepository } from './users.repository';
+import { UUID } from 'crypto';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly loggerService: LoggerService) { }
+  constructor(
+    private readonly loggerService: LoggerService,
+    @Inject(UsersRepository)
+    private readonly usersRepository: UsersRepository
+  ) { }
 
   async create(createUserDto: CreateUserDto) {
-    return "users create user with "
+    this.loggerService.log(`Creating user: ${createUserDto.email}`);
+    return await this.usersRepository.create({
+      email: createUserDto.email,
+      username: createUserDto.username,
+      firstName: createUserDto.firstName,
+      lastName: createUserDto.lastName,
+      passwordHash: createUserDto.password,
+      ...createUserDto,
+    });
   }
 
   async findAll() {
-    this.loggerService.log(`findAll`);
-    this.loggerService.error(`indAll`);
-    return await db
-      .select()
-      .from(UsersEntity);
+    return await this.usersRepository.findAll();
   }
 
-  async findOne(id: string): Promise<any> {
-    return await db
-      .select()
-      .from(UsersEntity)
-      .where(eq(UsersEntity.id, id));
+  async findOne(id: UUID): Promise<any> {
+    return await this.usersRepository.findOne(id);
   }
 
   async findOneByEmail(email: string): Promise<any> {
@@ -39,19 +46,11 @@ export class UsersService {
       .where(eq(UsersEntity.email, email));
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    return await db
-      .update(UsersEntity)
-      .set({
-        ...updateUserDto,
-        passwordHash: updateUserDto.password!,
-      })
-      .where(eq(UsersEntity.id, id));
+  async update(id: UUID, updateUserDto: UpdateUserDto) {
+    return await this.usersRepository.update(id, updateUserDto);
   }
 
-  async remove(id: string) {
-    return await db
-      .delete(UsersEntity)
-      .where(eq(UsersEntity.id, id));
+  async remove(id: UUID) {
+    return await this.usersRepository.remove(id);
   }
 }
