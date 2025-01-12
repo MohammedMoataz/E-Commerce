@@ -9,7 +9,7 @@ import {
 import { AuditService } from './audit.service';
 import { AuditDto } from './dto/audit.dto';
 
-@Controller('audit')
+@Controller('v1/audit/')
 export class AuditController {
   constructor(private readonly auditService: AuditService) { }
 
