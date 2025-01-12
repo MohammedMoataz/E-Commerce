@@ -56,15 +56,15 @@ export const Order = pgTable("orders", {
         .default(null),
     createdAt: timestamp("created_at")
         .defaultNow(),
-    _createdBy: uuid("created_by")
+    createdBy: uuid("created_by")
         .default(null),
     updatedAt: timestamp("updated_at")
         .default(null),
-    _updatedBy: uuid("updated_by")
+    updatedBy: uuid("updated_by")
         .default(null),
     deletedAt: timestamp("deleted_at")
         .default(null),
-    _deletedBy: uuid("deleted_by")
+    deletedBy: uuid("deleted_by")
         .default(null),
 }, self => [
     check("orders_shipping_price_constraints", sql`${self.shippingPrice} >= 0`),
@@ -85,17 +85,17 @@ export const Order = pgTable("orders", {
     }),
     foreignKey({
         name: "order_created_by_id_fk",
-        columns: [self._createdBy],
+        columns: [self.createdBy],
         foreignColumns: [User.id]
     }),
     foreignKey({
         name: "order_updated_by_id_fk",
-        columns: [self._updatedBy],
+        columns: [self.updatedBy],
         foreignColumns: [User.id]
     }),
     foreignKey({
         name: "order_deleted_by_id_fk",
-        columns: [self._deletedBy],
+        columns: [self.deletedBy],
         foreignColumns: [User.id]
     }),
 
@@ -109,15 +109,15 @@ export const Order = pgTable("orders", {
             references: [Cart.id]
         }),
         createdBy: one(User, {
-            fields: [self._createdBy],
+            fields: [self.createdBy],
             references: [User.id]
         }),
         updatedBy: one(User, {
-            fields: [self._updatedBy],
+            fields: [self.updatedBy],
             references: [User.id]
         }),
         deletedBy: one(User, {
-            fields: [self._deletedBy],
+            fields: [self.deletedBy],
             references: [User.id]
         }),
     }))
