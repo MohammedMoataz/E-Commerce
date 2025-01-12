@@ -1,7 +1,4 @@
-import {
-  Inject,
-  Injectable
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { ReviewsRepository } from './reviews.repository';
 import { CreateReviewDto } from './dto/create-review.dto';
@@ -10,7 +7,6 @@ import { UpdateReviewDto } from './dto/delete-review.dto';
 @Injectable()
 export class ReviewsService {
   constructor(
-    @Inject()
     private readonly reviewsRepository: ReviewsRepository
   ) { }
 

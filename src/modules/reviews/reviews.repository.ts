@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 import db from "src/infrastructure/config/db/db.config";
 import { Review } from "./entities/review.entity";
@@ -22,19 +22,19 @@ export class ReviewsRepository implements GenericRepository {
         return await db
             .select()
             .from(Review)
-            .where(sql`${Review.id} = ${id}`)
+            .where(eq(Review.id, id));
     }
 
-    async update(id: number, data: UpdateReviewDto): Promise<any> {
+    async update(id: number, updateReviewDto: UpdateReviewDto): Promise<any> {
         return await db
             .update(Review)
-            .set({ ...data })
-            .where(sql`${Review.id} = ${id}`);
+            .set({ ...updateReviewDto })
+            .where(eq(Review.id, id));
     }
 
     async remove(id: number): Promise<any> {
         return await db
             .delete(Review)
-            .where(sql`${Review.id} = ${id}`);
+            .where(eq(Review.id, id));
     }
 }
