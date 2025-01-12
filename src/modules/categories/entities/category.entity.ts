@@ -3,7 +3,6 @@ import {
     pgTable,
     timestamp,
     varchar,
-    text,
     index,
     integer,
 } from "drizzle-orm/pg-core";
@@ -17,8 +16,6 @@ export const Category = pgTable("categories", {
     name: varchar("name", { length: 250 })
         .notNull()
         .unique(),
-    image: text("image")
-        .default(null),
     createdAt: timestamp("created_at")
         .defaultNow(),
     updatedAt: timestamp("updated_at")
