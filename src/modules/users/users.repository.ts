@@ -1,10 +1,11 @@
 import { UUID } from "crypto";
-import { sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 import db from "../../infrastructure/config/db/db.config";
 import { GenericRepository } from "src/common/repositories/generic.repository";
 import { User } from "./entities/user.entity";
 import { IUsersRepository } from "./users.irepository";
+import { UpdateUserDto } from "./dto/update-user.dto";
 
 export class UsersRepository implements GenericRepository, IUsersRepository {
     async create(data: typeof User.$inferInsert) {
@@ -23,26 +24,26 @@ export class UsersRepository implements GenericRepository, IUsersRepository {
         return await db
             .select()
             .from(User)
-            .where(sql`${User.id} = ${id}`)
+            .where(eq(User.id, id));
     }
 
     async findOneByEmail(email: string): Promise<any> {
         return await db
             .select()
             .from(User)
-            .where(sql`${User.email} = ${email}`)
+            .where(eq(User.email, email));
     }
 
-    async update(id: UUID, data: any): Promise<any> {
+    async update(id: UUID, updateUserDto: UpdateUserDto): Promise<any> {
         return await db
             .update(User)
-            .set({ ...data, })
-            .where(sql`${User.id} = ${id}`);
+            .set({ ...updateUserDto })
+            .where(eq(User.id, id));
     }
 
     async remove(id: UUID): Promise<any> {
         return await db
             .delete(User)
-            .where(sql`${User.id} = ${id}`);
+            .where(eq(User.id, id));
     }
 }

@@ -1,26 +1,17 @@
-import {
-  Inject,
-  Injectable
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
-import { eq } from 'drizzle-orm';
 
-import db from 'src/infrastructure/config/db/db.config';
-import { User } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { LoggerService } from 'src/common/helpers/logger/logger.service';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject(UsersRepository)
-    private readonly usersRepository: UsersRepository
+    private readonly usersRepository: UsersRepository,
   ) { }
 
   async create(createUserDto: CreateUserDto) {
-    LoggerService.log(`Creating user: ${createUserDto.email}`);
     return await this.usersRepository.create({
       email: createUserDto.email,
       username: createUserDto.username,
@@ -40,10 +31,8 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string): Promise<any> {
-    return await db
-      .select()
-      .from(User)
-      .where(eq(User.email, email));
+    return await this.usersRepository.findOneByEmail(email);
+
   }
 
   async update(id: UUID, updateUserDto: UpdateUserDto) {
