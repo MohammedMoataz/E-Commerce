@@ -1,9 +1,9 @@
-import { UUID } from "crypto";
-import { sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 import db from "src/infrastructure/config/db/db.config";
 import { Product } from "./entities/product.entity";
 import { GenericRepository } from "src/common/repositories/generic.repository";
+import { UpdateProductDto } from "./dto/update-product.dto";
 
 export class ProductsRepository implements GenericRepository {
     async create(data: typeof Product.$inferInsert) {
@@ -18,23 +18,24 @@ export class ProductsRepository implements GenericRepository {
             .from(Product);
     }
 
-    async findOne(id: UUID): Promise<any> {
+    async findOneById(id: number): Promise<any> {
         return await db
             .select()
             .from(Product)
-            .where(sql`${Product.id} = ${id}`)
+            .where(eq(Product.id, id));
     }
 
-    async update(id: UUID, data: any): Promise<any> {
+    async update(id: number, updateProductDto: UpdateProductDto): Promise<any> {
         return await db
             .update(Product)
-            .set({ ...data, })
-            .where(sql`${Product.id} = ${id}`);
+            .set({ ...updateProductDto })
+            .where(eq(Product.id, id));
     }
 
-    async remove(id: UUID): Promise<any> {
+
+    async remove(id: number): Promise<any> {
         return await db
             .delete(Product)
-            .where(sql`${Product.id} = ${id}`);
+            .where(eq(Product.id, id));
     }
 }

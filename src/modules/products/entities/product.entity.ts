@@ -44,22 +44,22 @@ export const Product = pgTable("products", {
         .default(0),
     createdAt: timestamp("created_at")
         .defaultNow(),
-    _createdBy: uuid("created_by")
+    createdBy: uuid("created_by")
         .default(null),
     updatedAt: timestamp("updated_at")
         .default(null),
-    _updatedBy: uuid("updated_by")
+    updatedBy: uuid("updated_by")
         .default(null),
     deletedAt: timestamp("deleted_at")
         .default(null),
-    _deletedBy: uuid("deleted_by")
+    deletedBy: uuid("deleted_by")
         .default(null),
 }, self => [
     check("products_quantity_constraints", sql`${self.quantity} >= 0`),
     check("products_price_constraints", sql`${self.price} >= 0`),
     check("products_discount_constraints", sql`${self.discount} >= 0`),
     check("products_rating_average_constraints", sql`${self.ratingAverage} BETWEEN 0 AND 5`),
-    check("products_rating_quantity_constraints", sql`${self.ratingQuantity} >=0`),
+    check("products_rating_quantity_constraints", sql`${self.ratingQuantity} >= 0`),
 
     index("products_title_idx").on(self.title),
 
@@ -70,17 +70,17 @@ export const Product = pgTable("products", {
     }),
     foreignKey({
         name: "product_created_by_id_fk",
-        columns: [self._createdBy],
+        columns: [self.createdBy],
         foreignColumns: [User.id]
     }),
     foreignKey({
         name: "product_updated_by_id_fk",
-        columns: [self._updatedBy],
+        columns: [self.updatedBy],
         foreignColumns: [User.id]
     }),
     foreignKey({
         name: "product_deleted_by_id_fk",
-        columns: [self._deletedBy],
+        columns: [self.deletedBy],
         foreignColumns: [User.id]
     }),
 
@@ -90,15 +90,15 @@ export const Product = pgTable("products", {
             references: [Category.id]
         }),
         createdBy: one(User, {
-            fields: [self._createdBy],
+            fields: [self.createdBy],
             references: [User.id]
         }),
         updatedBy: one(User, {
-            fields: [self._updatedBy],
+            fields: [self.updatedBy],
             references: [User.id]
         }),
         deletedBy: one(User, {
-            fields: [self._deletedBy],
+            fields: [self.deletedBy],
             references: [User.id]
         }),
         productsImages: many(ProductImage),
