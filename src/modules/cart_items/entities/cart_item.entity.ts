@@ -18,8 +18,10 @@ export const CartItem = pgTable("cart_items", {
     id: integer("id")
         .primaryKey()
         .generatedByDefaultAsIdentity(),
-    productId: integer("product_id"),
-    cartId: integer("cart_id"),
+    productId: integer("product_id")
+        .notNull(),
+    cartId: integer("cart_id")
+        .notNull(),
     quantity: integer("quantity")
         .default(0),
     discount: numeric("discount")

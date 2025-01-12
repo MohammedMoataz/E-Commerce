@@ -12,7 +12,7 @@ import { CartItemsService } from './cart_items.service';
 import { CreateCartItemDto } from './dto/create-cart_item.dto';
 import { UpdateCartItemDto } from './dto/update-cart_item.dto';
 
-@Controller('cart-items')
+@Controller('v1/cart-items/')
 export class CartItemsController {
   constructor(private readonly cartItemsService: CartItemsService) { }
 
@@ -27,17 +27,17 @@ export class CartItemsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cartItemsService.findOne(+id);
+  findOneById(@Param('id') id: number) {
+    return this.cartItemsService.findOneById(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartItemDto: UpdateCartItemDto) {
-    return this.cartItemsService.update(+id, updateCartItemDto);
+  update(@Param('id') id: number, @Body() updateCartItemDto: UpdateCartItemDto) {
+    return this.cartItemsService.update(id, updateCartItemDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cartItemsService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.cartItemsService.remove(id);
   }
 }
