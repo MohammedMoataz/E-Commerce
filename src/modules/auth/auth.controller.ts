@@ -9,6 +9,7 @@ import {
   UseGuards,
   Request
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { AuthService } from './auth.service';
 import {
@@ -17,6 +18,7 @@ import {
 } from './dto/auth.dto';
 import { AuthGuard } from 'src/common/guards/jwt.guard';
 
+@ApiTags("Auth APIs")
 @Controller("v1/")
 export class AuthController {
   constructor(private readonly authService: AuthService) { }

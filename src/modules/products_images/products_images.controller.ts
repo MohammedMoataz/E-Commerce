@@ -7,10 +7,12 @@ import {
   Param,
   Delete
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { ProductsImagesService } from './products_images.service';
 import { CreateProductImageDto } from './dto/create-product_image.dto';
 
+@ApiTags('Products Images APIs')
 @Controller('v1/products-images/')
 export class ProductsImagesController {
   constructor(private readonly productsImagesService: ProductsImagesService) { }

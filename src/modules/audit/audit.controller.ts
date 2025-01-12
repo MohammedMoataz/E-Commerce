@@ -5,10 +5,12 @@ import {
   Body,
   Param,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { AuditService } from './audit.service';
 import { AuditDto } from './dto/audit.dto';
 
+@ApiTags('Audit APIs')
 @Controller('v1/audit/')
 export class AuditController {
   constructor(private readonly auditService: AuditService) { }

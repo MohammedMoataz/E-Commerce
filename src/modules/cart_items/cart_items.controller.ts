@@ -7,11 +7,13 @@ import {
   Param,
   Delete
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { CartItemsService } from './cart_items.service';
 import { CreateCartItemDto } from './dto/create-cart_item.dto';
 import { UpdateCartItemDto } from './dto/update-cart_item.dto';
 
+@ApiTags('Cart Items APIs')
 @Controller('v1/cart-items/')
 export class CartItemsController {
   constructor(private readonly cartItemsService: CartItemsService) { }
