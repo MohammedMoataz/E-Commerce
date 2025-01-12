@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 import db from "src/infrastructure/config/db/db.config";
 import { ProductImage } from "./entities/product_images.entity";
@@ -22,19 +22,19 @@ export class ProductsImagesRepository implements GenericRepository {
         return await db
             .select()
             .from(ProductImage)
-            .where(sql`${ProductImage.id} = ${id}`)
+            .where(eq(ProductImage.id, id));
     }
 
-    async update(id: number, data: DeleteProductImageDto): Promise<any> {
+    async update(id: number, deleteProductImageDto: DeleteProductImageDto): Promise<any> {
         return await db
             .update(ProductImage)
-            .set({ ...data })
-            .where(sql`${ProductImage.id} = ${id}`);
+            .set({ ...deleteProductImageDto })
+            .where(eq(ProductImage.id, id));
     }
 
     async remove(id: number): Promise<any> {
         return await db
             .delete(ProductImage)
-            .where(sql`${ProductImage.id} = ${id}`)
+            .where(eq(ProductImage.id, id));
     }
 }

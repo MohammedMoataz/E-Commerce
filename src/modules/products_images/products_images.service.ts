@@ -1,7 +1,4 @@
-import {
-  Inject,
-  Injectable
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { ProductsImagesRepository } from './products_images.repository';
 import { CreateProductImageDto } from './dto/create-product_image.dto';
@@ -9,7 +6,6 @@ import { CreateProductImageDto } from './dto/create-product_image.dto';
 @Injectable()
 export class ProductsImagesService {
   constructor(
-    @Inject()
     private readonly ProductsImagesRepository: ProductsImagesRepository
   ) { }
 
