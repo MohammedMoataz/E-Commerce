@@ -15,6 +15,20 @@
       "when": 1736636692201,
       "tag": "0001_classy_beyonder",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1736639408736,
+      "tag": "0002_skinny_nightmare",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1736642396454,
+      "tag": "0003_pale_salo",
+      "breakpoints": true
     }
   ]
 }
