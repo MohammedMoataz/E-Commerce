@@ -18,8 +18,7 @@ export class UsersRepository implements GenericRepository, IUsersRepository {
     async findAll(): Promise<any> {
         return await db
             .select()
-            .from(User)
-            .leftJoin(Order, eq(User.id, Order.ownerId));
+            .from(User);
     }
 
     async findOneById(id: UUID): Promise<any> {
