@@ -17,6 +17,7 @@ import { OrdersModule } from './modules/orders/orders.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
 import { MailModule } from './common/helpers/mail/mail.module';
 import { LoggerModule } from './common/helpers/logger/logger.module';
+import { CustomCacheModule } from './common/helpers/cache/cache.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { LoggerModule } from './common/helpers/logger/logger.module';
     ReviewsModule,
     MailModule,
     LoggerModule,
+    CustomCacheModule,
   ],
 })
 export class AppModule implements NestModule {

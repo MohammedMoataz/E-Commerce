@@ -5,16 +5,20 @@ import {
   Body,
   Patch,
   Param,
-  Delete
+  Delete,
+  UseInterceptors,
+  Inject
 } from '@nestjs/common';
 import { UUID } from 'crypto';
 import { ApiTags } from '@nestjs/swagger';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 
 @ApiTags('Users APIs')
+@UseInterceptors(CacheInterceptor)
 @Controller('v1/users/')
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
