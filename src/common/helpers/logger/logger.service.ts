@@ -17,7 +17,7 @@ export class LoggerService {
 
   static log(message: string) {
     LoggerService.logger.info({
-      timestamp: new Date().toISOString(),
+      timestamp: new Date(),
       level: LogLevel.INFO,
       message
     });
@@ -25,7 +25,7 @@ export class LoggerService {
 
   static error(message: string) {
     LoggerService.logger.error({
-      timestamp: new Date().toISOString(),
+      timestamp: new Date(),
       level: LogLevel.ERROR,
       message
     });

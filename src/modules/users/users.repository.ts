@@ -7,6 +7,9 @@ import { User } from "./entities/user.entity";
 import { IUsersRepository } from "./users.irepository";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { Order } from "../orders/entities/order.entity";
+import { Review } from "../reviews/entities/review.entity";
+import { Cart } from "../cart/entities/cart.entity";
+import { Audit } from "../audit/entities/audit.entity";
 
 export class UsersRepository implements GenericRepository, IUsersRepository {
     async create(data: typeof User.$inferInsert) {
@@ -18,7 +21,11 @@ export class UsersRepository implements GenericRepository, IUsersRepository {
     async findAll(): Promise<any> {
         return await db
             .select()
-            .from(User);
+            .from(User)
+            .leftJoin(Order, eq(User.id, Order.userId))
+            .leftJoin(Review, eq(User.id, Review.clientId))
+            .leftJoin(Cart, eq(User.id, Cart.userId))
+            .leftJoin(Audit, eq(User.id, Audit.auditBy));
     }
 
     async findOneById(id: UUID): Promise<any> {
