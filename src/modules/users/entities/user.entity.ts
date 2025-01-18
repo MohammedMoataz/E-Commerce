@@ -17,7 +17,6 @@ import {
 import { Audit } from "src/modules/audit/entities/audit.entity";
 import { Cart } from "src/modules/cart/entities/cart.entity";
 import { Order } from "src/modules/orders/entities/order.entity";
-import { Product } from "src/modules/products/entities/product.entity";
 import { Review } from "src/modules/reviews/entities/review.entity";
 
 export const User = pgTable("users", {
