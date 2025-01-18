@@ -4,8 +4,8 @@ import { JwtModule } from '@nestjs/jwt';
 
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { MailService } from 'src/common/helpers/mail/mail.service';
 import { UsersModule } from '../users/users.module';
+import { MailModule } from 'src/common/helpers/mail/mail.module';
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 
@@ -17,8 +17,9 @@ const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
       secret: ACCESS_TOKEN_SECRET,
       signOptions: { expiresIn: '1d' },
     }),
+    MailModule
   ],
-  providers: [AuthService, MailService],
+  providers: [AuthService],
   controllers: [AuthController],
   exports: [AuthService],
 })
