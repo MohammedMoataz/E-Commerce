@@ -1,10 +1,14 @@
 import { Exclude } from "class-transformer";
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiExtraModels, ApiProperty } from "@nestjs/swagger";
 import { UUID } from "crypto";
-import { IsNumber, IsUUID } from "class-validator";
+import {
+    IsNumber,
+    IsUUID
+} from "class-validator";
 import { OmitType } from "@nestjs/mapped-types";
 import { ReviewDto } from "./review.dto";
 
+@ApiExtraModels(ReviewDto)
 export class CreateReviewDto extends OmitType(ReviewDto, ['id', 'product', 'client']) {
     @ApiProperty({ description: 'UUID of the user who created the review.' })
     @IsUUID()
