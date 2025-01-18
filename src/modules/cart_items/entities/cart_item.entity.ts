@@ -15,25 +15,16 @@ import { Cart } from "src/modules/cart/entities/cart.entity";
 import { Product } from "src/modules/products/entities/product.entity";
 
 export const CartItem = pgTable("cart_items", {
-    id: integer("id")
-        .primaryKey()
-        .generatedByDefaultAsIdentity(),
-    productId: integer("product_id")
-        .notNull(),
-    cartId: integer("cart_id")
-        .notNull(),
-    quantity: integer("quantity")
-        .default(0),
-    discount: numeric("discount")
-        .default("0.0"),
-    createdAt: timestamp("created_at")
-        .defaultNow(),
-    updatedAt: timestamp("updated_at")
-        .default(null),
-    deletedAt: timestamp("deleted_at")
-        .default(null),
+    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+    productId: integer("product_id").notNull(),
+    cartId: integer("cart_id").notNull(),
+    quantity: integer("quantity").default(1).notNull(),
+    discount: numeric("discount").default("0.0").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").default(null),
+    deletedAt: timestamp("deleted_at").default(null),
 }, self => [
-    check("cart_items_quantity_constraints", sql`${self.quantity} >= 0`),
+    check("cart_items_quantity_constraints", sql`${self.quantity} > 0`),
     check("cart_items_discount_constraints", sql`${self.discount} >= 0`),
 
     foreignKey({

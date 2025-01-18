@@ -6,7 +6,6 @@ import {
     pgTable,
     timestamp,
     varchar,
-    uuid,
     integer,
     text,
     check,
@@ -14,46 +13,28 @@ import {
     index,
     foreignKey,
 } from "drizzle-orm/pg-core";
+import { CartItem } from "src/modules/cart_items/entities/cart_item.entity";
 
 import { Category } from "src/modules/categories/entities/category.entity";
 import { ProductImage } from "src/modules/products_images/entities/product_images.entity";
 import { Review } from "src/modules/reviews/entities/review.entity";
-import { User } from "src/modules/users/entities/user.entity";
 
 export const Product = pgTable("products", {
     id: integer("id")
         .primaryKey()
         .generatedByDefaultAsIdentity(),
-    categoryId: integer("category_id")
-        .notNull(),
-    title: varchar("title", { length: 50 })
-        .notNull(),
-    description: text("description")
-        .default(null),
-    quantity: integer("quantity")
-        .default(0),
-    cover_image: text("cover_image")
-        .default(null),
-    price: numeric("price")
-        .default("0.0"),
-    discount: numeric("discount")
-        .default("0.0"),
-    ratingAverage: numeric("rating_average")
-        .default("0.0"),
-    ratingQuantity: integer("rating_quantity")
-        .default(0),
-    createdAt: timestamp("created_at")
-        .defaultNow(),
-    createdBy: uuid("created_by")
-        .default(null),
-    updatedAt: timestamp("updated_at")
-        .default(null),
-    updatedBy: uuid("updated_by")
-        .default(null),
-    deletedAt: timestamp("deleted_at")
-        .default(null),
-    deletedBy: uuid("deleted_by")
-        .default(null),
+    categoryId: integer("category_id").notNull(),
+    title: varchar("title", { length: 100 }).notNull(),
+    description: varchar("description", { length: 250 }).default(null),
+    quantity: integer("quantity").default(0),
+    coverImage: text("cover_image").default(null),
+    price: numeric("price").default("0.0"),
+    discount: numeric("discount").default("0.0"),
+    ratingAverage: numeric("rating_average").default("0.0"),
+    ratingQuantity: integer("rating_quantity").default(0),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").default(null),
+    deletedAt: timestamp("deleted_at").default(null),
 }, self => [
     check("products_quantity_constraints", sql`${self.quantity} >= 0`),
     check("products_price_constraints", sql`${self.price} >= 0`),
@@ -66,42 +47,16 @@ export const Product = pgTable("products", {
     foreignKey({
         name: "product_category_id_fk",
         columns: [self.categoryId],
-        foreignColumns: [Category.id]
+        foreignColumns: [Category.id],
     }),
-    foreignKey({
-        name: "product_created_by_id_fk",
-        columns: [self.createdBy],
-        foreignColumns: [User.id]
-    }),
-    foreignKey({
-        name: "product_updated_by_id_fk",
-        columns: [self.updatedBy],
-        foreignColumns: [User.id]
-    }),
-    foreignKey({
-        name: "product_deleted_by_id_fk",
-        columns: [self.deletedBy],
-        foreignColumns: [User.id]
-    }),
-
+    
     relations(Product, ({ one, many }) => ({
         category: one(Category, {
             fields: [self.categoryId],
-            references: [Category.id]
+            references: [Category.id],
         }),
-        createdBy: one(User, {
-            fields: [self.createdBy],
-            references: [User.id]
-        }),
-        updatedBy: one(User, {
-            fields: [self.updatedBy],
-            references: [User.id]
-        }),
-        deletedBy: one(User, {
-            fields: [self.deletedBy],
-            references: [User.id]
-        }),
-        productsImages: many(ProductImage),
+        images: many(ProductImage),
         reviews: many(Review),
-    }))
+        cartItems: many(CartItem),
+    })),
 ]);

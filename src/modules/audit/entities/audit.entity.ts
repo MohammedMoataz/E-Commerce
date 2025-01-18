@@ -17,19 +17,17 @@ import {
 import { User } from "src/modules/users/entities/user.entity";
 
 export const Audit = pgTable("audit", {
-    id: integer("id")
-        .primaryKey()
-        .generatedByDefaultAsIdentity(),
-    action: varchar("action", { length: 50 }),
-    auditData: jsonb("audit_data"),
-    auditBy: uuid("audit_by"),
-    auditOn: timestamp("audit_on"),
-    auditStatus: varchar("audit_status", { length: 10, enum: ["success", "failure", "pending"] }),
-    auditError: jsonb("audit_error"),
+    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+    action: varchar("action", { length: 50 }).notNull(),
+    auditData: jsonb("audit_data").notNull(),
+    auditBy: uuid("audit_by").notNull(),
+    auditOn: timestamp("audit_on").defaultNow().notNull(),
+    auditStatus: varchar("audit_status", { length: 10, enum: ["success", "failure", "pending"] }).notNull(),
+    auditError: jsonb("audit_error").default(null),
 }, self => [
     index("audit_on_idx").on(self.auditOn),
     index("audit_by_idx").on(self.auditBy),
-
+    
     check("audit_status_constraints", sql`${self.auditStatus} in ('success', 'failure', 'pending')`),
 
     foreignKey({
