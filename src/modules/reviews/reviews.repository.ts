@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import db from "src/infrastructure/config/db/db.config";
 import { Review } from "./entities/review.entity";
 import { GenericRepository } from "src/common/repositories/generic.repository";
-import { UpdateReviewDto } from "./dto/delete-review.dto";
+import { UpdateReviewDto } from "./dto/update-review.dto";
 
 export class ReviewsRepository implements GenericRepository {
     async create(data: typeof Review.$inferInsert) {

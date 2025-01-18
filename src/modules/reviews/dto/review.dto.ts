@@ -16,7 +16,7 @@ export class ReviewDto {
 
     @ApiProperty({ description: 'User who made the review.', required: false })
     @IsOptional()
-    user?: UserDto;
+    client?: UserDto;
 
     @ApiProperty({ description: 'Product being reviewed.', required: false })
     @IsOptional()

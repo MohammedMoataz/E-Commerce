@@ -11,8 +11,6 @@ export class ProductsImagesService {
 
   create(createProductImageDto: CreateProductImageDto) {
     return this.ProductsImagesRepository.create({
-      id: createProductImageDto.id,
-      productId: createProductImageDto.productId,
       ...createProductImageDto,
     });
   }

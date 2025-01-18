@@ -11,7 +11,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 import { ReviewsService } from './reviews.service';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { UpdateReviewDto } from './dto/delete-review.dto';
+import { UpdateReviewDto } from './dto/update-review.dto';
 
 @ApiTags('Reviews APIs')
 @Controller('v1/reviews/')

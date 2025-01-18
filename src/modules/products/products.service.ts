@@ -12,8 +12,6 @@ export class ProductsService {
 
   async create(createProductDto: CreateProductDto) {
     return this.productsRepository.create({
-      categoryId: createProductDto.categoryId,
-      title: createProductDto.title,
       ...createProductDto,
     });
   }

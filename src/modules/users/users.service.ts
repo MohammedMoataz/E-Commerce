@@ -1,4 +1,4 @@
-import {  Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
 
 import { UsersRepository } from './users.repository';
@@ -18,6 +18,7 @@ export class UsersService {
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
       passwordHash: createUserDto.password,
+      age: createUserDto.age,
       ...createUserDto,
     });
   }

@@ -12,8 +12,6 @@ export class CartItemsService {
 
   async create(createCartItemDto: CreateCartItemDto) {
     return this.cartItemsRepository.create({
-      cartId: createCartItemDto.cartId,
-      productId: createCartItemDto.productId,
       ...createCartItemDto,
     });
   }

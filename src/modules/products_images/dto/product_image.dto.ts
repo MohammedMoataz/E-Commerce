@@ -18,4 +18,7 @@ export class ProductImageDto {
     @ApiProperty({ description: 'URL or path of the product image.' })
     @IsString()
     image: string;
+
+    @ApiProperty({ description: 'Alternative text for the image, used for accessibility and SEO.', required: false })
+    alt_text?: string;
 }

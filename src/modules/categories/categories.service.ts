@@ -12,7 +12,6 @@ export class CategoriesService {
 
   async create(createCategoryDto: CreateCategoryDto) {
     return this.categoriesRepository.create({
-      name: createCategoryDto.name,
       ...createCategoryDto,
     });
   }
