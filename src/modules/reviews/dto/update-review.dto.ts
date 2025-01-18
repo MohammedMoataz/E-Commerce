@@ -1,12 +1,10 @@
 import { Exclude } from 'class-transformer';
-import { PartialType } from '@nestjs/mapped-types';
-import { UUID } from 'crypto';
+import { OmitType, } from '@nestjs/mapped-types';
+import { ApiProperty } from '@nestjs/swagger';
+import { CreateReviewDto } from './create-review.dto';
 
-import { ReviewDto } from './review.dto';
-
-export class UpdateReviewDto extends PartialType(ReviewDto) {
+export class UpdateReviewDto extends OmitType(CreateReviewDto, ['createdAt']) {
     @Exclude()
-    updatedAt: Date;
-    @Exclude()
-    _updatedBy: UUID;
+    @ApiProperty({ description: 'Timestamp when the review was last updated.', required: false })
+    readonly updatedAt?: Date;
 }

@@ -1,11 +1,21 @@
 import { ApiProperty } from "@nestjs/swagger";
+import {
+    IsNumber,
+    IsOptional,
+    IsString
+} from "class-validator";
 import { ProductDto } from "src/modules/products/dto/product.dto";
 
 export class ProductImageDto {
-    @ApiProperty()
+    @ApiProperty({ description: 'Unique identifier for the product image.' })
+    @IsNumber()
     id: number;
-    @ApiProperty()
+
+    @ApiProperty({ description: 'Associated product for the image.', required: false })
+    @IsOptional()
     product?: ProductDto;
-    @ApiProperty()
+
+    @ApiProperty({ description: 'URL or path of the product image.' })
+    @IsString()
     image: string;
 }

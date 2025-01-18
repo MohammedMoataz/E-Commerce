@@ -1,8 +1,10 @@
 import { Exclude } from 'class-transformer';
-import { PartialType } from '@nestjs/mapped-types';
-import { UserDto } from './user.dto';
+import { OmitType } from '@nestjs/mapped-types';
+import { ApiProperty } from '@nestjs/swagger';
+import { CreateUserDto } from './create-user.dto';
 
-export class UpdateUserDto extends PartialType(UserDto) {
+export class UpdateUserDto extends OmitType(CreateUserDto, ['createdAt']) {
     @Exclude()
-    updatedAt?: Date;
+    @ApiProperty({ description: 'Timestamp when the user was last updated.', required: false })
+    readonly updatedAt?: Date;
 }

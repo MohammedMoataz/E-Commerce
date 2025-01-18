@@ -1,11 +1,10 @@
 import { Exclude } from "class-transformer";
-import { UUID } from "crypto";
-
+import { OmitType } from "@nestjs/mapped-types";
+import { ApiProperty } from "@nestjs/swagger";
 import { CategoryDto } from "./category.dto";
 
-export class CreateCategoryDto extends CategoryDto {
+export class CreateCategoryDto extends OmitType(CategoryDto, ['id']) {
     @Exclude()
-    createdAt: Date;
-    @Exclude()
-    createdBy: UUID;
+    @ApiProperty({ description: 'Timestamp when the category was created.', required: false })
+    readonly createdAt?: Date;
 }

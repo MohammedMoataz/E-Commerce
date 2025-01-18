@@ -1,12 +1,10 @@
 import { Exclude } from "class-transformer";
-import { PartialType } from "@nestjs/mapped-types";
-import { UUID } from "crypto";
+import { OmitType } from "@nestjs/mapped-types";
+import { ApiProperty } from "@nestjs/swagger";
+import { CreateCategoryDto } from "./create-category.dto";
 
-import { CategoryDto } from "./category.dto";
-
-export class UpdateCategoryDto extends PartialType(CategoryDto) {
+export class UpdateCategoryDto extends OmitType(CreateCategoryDto, ['createdAt']) {
     @Exclude()
-    updatedAt: Date;
-    @Exclude()
-    updatedBy: UUID;
+    @ApiProperty({ description: 'Timestamp when the cactegory was last updated.', required: false })
+    readonly updatedAt?: Date;
 }

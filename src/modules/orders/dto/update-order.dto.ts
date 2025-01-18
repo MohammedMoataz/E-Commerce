@@ -1,12 +1,23 @@
 import { Exclude } from "class-transformer";
-import { PartialType } from "@nestjs/mapped-types";
+import { OmitType } from "@nestjs/mapped-types";
 import { UUID } from "crypto";
+import { ApiProperty } from "@nestjs/swagger";
+import {
+    IsNumber,
+    IsUUID
+} from "class-validator";
+import { CreateOrderDto } from "./create-order.dto";
 
-import { OrderDto } from "./order.dto";
+export class UpdateOrderDto extends OmitType(CreateOrderDto, ['createdAt']) {
+    @ApiProperty({ description: 'UUID of the user associated with the order.' })
+    @IsUUID()
+    ownerId: UUID;
 
-export class UpdateOrderDto extends PartialType(OrderDto) {
+    @ApiProperty({ description: 'Unique identifier for the cart associated with the order.' })
+    @IsNumber()
+    cartId: number;
+
     @Exclude()
-    updatedAt: Date;
-    @Exclude()
-    updatedBy: UUID;
+    @ApiProperty({ description: 'Timestamp when the order was updated.' })
+    readonly updatedAt?: Date;
 }
