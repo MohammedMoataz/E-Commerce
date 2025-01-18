@@ -1,11 +1,10 @@
 import { Exclude } from "class-transformer";
 import { ApiProperty } from "@nestjs/swagger";
-import { PartialType } from "@nestjs/mapped-types";
 import { UUID } from "crypto";
 
 import { CartDto } from "./cart.dto";
 
-export class CreateCartDto extends PartialType(CartDto) {
+export class CreateCartDto extends CartDto {
     @ApiProperty()
     userId: UUID;
     @ApiProperty()
