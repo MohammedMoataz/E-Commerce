@@ -3,8 +3,8 @@ import {
   Module,
   NestModule
 } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 
-import { ErrorHandlerMiddleware } from './common/middlewares/error_handler.middleware';
 import { AuthModule } from './modules/auth/auth.module';
 import { AuditModule } from './modules/audit/audit.module';
 import { UsersModule } from './modules/users/users.module';
@@ -18,8 +18,9 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
 import { MailModule } from './common/helpers/mail/mail.module';
 import { LoggerModule } from './common/helpers/logger/logger.module';
 import { CustomCacheModule } from './common/helpers/cache/cache.module';
-import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
+import { ErrorHandlerMiddleware } from './middlewares/error_handler.middleware';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
   imports: [
@@ -45,7 +46,7 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(ErrorHandlerMiddleware)
+      .apply(ErrorHandlerMiddleware, LoggerMiddleware)
       .forRoutes('*');
   }
 }
