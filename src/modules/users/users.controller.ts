@@ -7,7 +7,10 @@ import {
   Param,
   Delete,
   UseInterceptors,
-  Inject
+  Inject,
+  UseFilters,
+  UsePipes,
+  ValidationPipe
 } from '@nestjs/common';
 import { UUID } from 'crypto';
 import { ApiTags } from '@nestjs/swagger';
@@ -16,9 +19,13 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
+import { AllExceptionsFilter } from 'src/common/filters/all-exceptions.filter';
+import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
 
 @ApiTags('Users APIs')
-@UseInterceptors(CacheInterceptor)
+@UseFilters(AllExceptionsFilter)
+@UseInterceptors(CacheInterceptor, ResponseInterceptor)
+@UsePipes(ValidationPipe)
 @Controller('v1/users/')
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }

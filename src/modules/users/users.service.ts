@@ -4,6 +4,7 @@ import { UUID } from 'crypto';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { hashData } from 'src/common/utils/util';
 
 @Injectable()
 export class UsersService {
@@ -12,12 +13,14 @@ export class UsersService {
   ) { }
 
   async create(createUserDto: CreateUserDto) {
+    let passwordHash = await hashData(createUserDto.password);
+
     return await this.usersRepository.create({
       email: createUserDto.email,
       username: createUserDto.username,
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
-      passwordHash: createUserDto.password,
+      passwordHash: passwordHash,
       age: createUserDto.age,
       ...createUserDto,
     });

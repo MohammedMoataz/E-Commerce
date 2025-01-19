@@ -18,6 +18,8 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
 import { MailModule } from './common/helpers/mail/mail.module';
 import { LoggerModule } from './common/helpers/logger/logger.module';
 import { CustomCacheModule } from './common/helpers/cache/cache.module';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 
 @Module({
   imports: [
@@ -35,6 +37,10 @@ import { CustomCacheModule } from './common/helpers/cache/cache.module';
     LoggerModule,
     CustomCacheModule,
   ],
+  providers: [{
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter
+    }]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
