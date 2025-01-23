@@ -21,6 +21,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { AllExceptionsFilter } from 'src/common/filters/all-exceptions.filter';
 import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
+import { UserDto } from './dto/user.dto';
 
 @ApiTags('Users APIs')
 @UseFilters(AllExceptionsFilter)
@@ -36,7 +37,7 @@ export class UsersController {
   }
 
   @Get()
-  async findAll() {
+  async findAll(): Promise<UserDto[]> {
     return await this.usersService.findAll();
   }
 

@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
 
+import { User } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { hashData } from 'src/common/utils/util';
+import { UserDto } from './dto/user.dto';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -26,8 +29,14 @@ export class UsersService {
     });
   }
 
-  async findAll() {
-    return await this.usersRepository.findAll();
+  async findAll(): Promise<UserDto[]> {
+    const users = await this.usersRepository.findAll();
+    let usersDto: UserDto[];
+
+    if (users.length)
+      usersDto = users.map((user: typeof User) => plainToClass(UserDto, user));
+
+    return usersDto;
   }
 
   async findOne(id: UUID): Promise<any> {

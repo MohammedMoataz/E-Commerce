@@ -30,10 +30,6 @@ export class UserDto {
   @IsString()
   username: string;
 
-  @ApiProperty({ description: 'Password for the user.' })
-  @IsString()
-  password: string;
-
   @ApiProperty({ description: 'Role of the user in the system.' })
   @IsString()
   role: string;
