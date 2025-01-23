@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { createLogger, Logger } from 'winston';
-import { winstonCofig } from 'src/infrastructure/config/logger/logger.config';
+import { winstonConfig } from 'src/infrastructure/config/logger/logger.config';
 
 enum LogLevel {
   INFO = 'INFO',
@@ -13,7 +13,7 @@ enum LogLevel {
 
 @Injectable()
 export class LoggerService {
-  private static readonly logger: Logger = createLogger(winstonCofig);
+  private static readonly logger: Logger = createLogger(winstonConfig);
 
   static info(message: string) {
     LoggerService.logger.info({ message });

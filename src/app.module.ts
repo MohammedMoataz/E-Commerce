@@ -19,7 +19,6 @@ import { MailModule } from './common/helpers/mail/mail.module';
 import { LoggerModule } from './common/helpers/logger/logger.module';
 import { CustomCacheModule } from './common/helpers/cache/cache.module';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
-import { ErrorHandlerMiddleware } from './middlewares/error_handler.middleware';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 
 @Module({
@@ -46,7 +45,7 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(ErrorHandlerMiddleware, LoggerMiddleware)
+      .apply(LoggerMiddleware)
       .forRoutes('*');
   }
 }
