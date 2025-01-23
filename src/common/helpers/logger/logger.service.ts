@@ -15,19 +15,27 @@ enum LogLevel {
 export class LoggerService {
   private static readonly logger: Logger = createLogger(winstonCofig);
 
-  static log(message: string) {
-    LoggerService.logger.info({
-      timestamp: new Date(),
-      level: LogLevel.INFO,
-      message
-    });
+  static info(message: string) {
+    LoggerService.logger.info({ message });
   }
 
   static error(message: string) {
-    LoggerService.logger.error({
-      timestamp: new Date(),
-      level: LogLevel.ERROR,
-      message
-    });
+    LoggerService.logger.error({ message });
+  }
+
+  static debug(message: string) {
+    LoggerService.logger.debug({ message });
+  }
+
+  static warn(message: string) {
+    LoggerService.logger.warn({ message });
+  }
+
+  static verbose(message: string) {
+    LoggerService.logger.verbose({ message });
+  }
+
+  static silly(message: string) {
+    LoggerService.logger.silly({ message });
   }
 }

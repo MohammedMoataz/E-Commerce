@@ -5,12 +5,10 @@ import {
     HttpStatus,
     ExceptionFilter
 } from "@nestjs/common";
-import { Logger } from "winston";
+import { LoggerService } from "../helpers/logger/logger.service";
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
-    private readonly logger: Logger;
-
     catch(exception: unknown, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
@@ -21,7 +19,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
             ? exception.getResponse()
             : { message: 'Internal server error' };
 
-        console.debug(exception);
+        LoggerService.debug(`${exception}`);
         response.status(status).json({
             success: false,
             statusCode: status,

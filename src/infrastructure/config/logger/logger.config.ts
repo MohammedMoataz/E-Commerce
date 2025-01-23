@@ -6,7 +6,6 @@ export const winstonCofig = {
             filename: "src/logs/all.log",
             format: format.combine(
                 format.timestamp(),
-                format.colorize(),
                 format.simple(),
                 format.printf(info => `${info.timestamp} | ${info.level} | ${info.message}`),
             ),
@@ -16,7 +15,6 @@ export const winstonCofig = {
             format: format.errors({
                 format: format.combine(
                     format.timestamp(),
-                    format.colorize(),
                     format.simple(),
                     format.printf(err => `${err.timestamp} | ${err.level} | ${err.message}`),
                 )

@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { LoggerService } from "../helpers/logger/logger.service";
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
 
@@ -17,22 +18,21 @@ export class AuthGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
         const token = this.extractTokenFromHeader(request);
-        if (!token) {
-            throw new UnauthorizedException();
-        }
+
+        if (!token) throw new UnauthorizedException();
+
         try {
             const payload = await this.jwtService.verifyAsync(
-                token,
-                {
-                    secret: ACCESS_TOKEN_SECRET
-                }
-            );
-            // 💡 We're assigning the payload to the request object here
-            // so that we can access it in our route handlers
+                token, {
+                secret: ACCESS_TOKEN_SECRET
+            });
+            
             request['user'] = payload;
+            LoggerService.info(`assigned user to req: ${payload}`);
         } catch {
             throw new UnauthorizedException();
         }
+
         return true;
     }
 

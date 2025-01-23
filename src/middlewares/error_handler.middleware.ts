@@ -12,7 +12,7 @@ export class ErrorHandlerMiddleware implements NestMiddleware {
             next();
         } catch (err: Error | any) {
             console.log("Internal error occurred: " + err.message);
-            LoggerService.log("Internal error occurred: " + err.message);
+            LoggerService.error("Internal error occurred: " + err.message);
             return res.status(500).json({ error: "Internal error occurred: " + err.message });
         }
     }
