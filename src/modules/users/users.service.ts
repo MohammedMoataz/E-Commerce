@@ -50,7 +50,9 @@ export class UsersService {
     return await this.usersRepository.update(id, updateUserDto);
   }
 
-  async remove(id: UUID): Promise<boolean> {
-    return await this.usersRepository.remove(id);
-  }
+  async remove(id: UUID): Promise<string> {
+    const result = await this.usersRepository.remove(id);
+    return result.rowCount > 0
+      ? "Deleted successfully"
+      : "Deleted failed";  }
 }

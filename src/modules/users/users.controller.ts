@@ -31,7 +31,6 @@ export class UsersController {
     return await this.usersService.create(createUserDto);
   }
 
-  @Serialize(UserDto)
   @Get()
   async findAll(): Promise<UserDto[]> {
     return await this.usersService.findAll();
@@ -50,7 +49,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: UUID): Promise<boolean> {
+  async remove(@Param('id') id: UUID): Promise<string> {
     return await this.usersService.remove(id);
   }
 }

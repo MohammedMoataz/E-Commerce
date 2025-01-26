@@ -29,7 +29,7 @@ export class CreateUserDto {
   @IsString()
   password: string;
 
-  @ApiProperty({ description: 'Phone number of the user.', pattern: '^[0-9]{11}$' })
+  @ApiProperty({ description: 'Phone number of the user.', required: true, pattern: '01^[0-2]{1}$+^[0-9]{8}$' })
   @IsString()
   @IsPhoneNumber('EG', { message: 'Phone number must be a valid Egyptian phone number', })
   phoneNumber: string;
