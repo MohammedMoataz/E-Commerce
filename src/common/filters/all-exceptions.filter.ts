@@ -9,7 +9,7 @@ import { LoggerService } from "../helpers/logger/logger.service";
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
-    catch(exception: unknown, host: ArgumentsHost) {
+    catch(exception: ExceptionFilter, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
         const status = exception instanceof HttpException
