@@ -33,9 +33,6 @@ export class UsersService {
     const users = await this.usersRepository.findAll();
     let usersDto: UserDto[];
 
-    if (users.length)
-      usersDto = users.map((user: typeof User) => plainToClass(UserDto, user));
-
     return usersDto;
   }
 
@@ -53,7 +50,6 @@ export class UsersService {
   }
 
   async remove(id: UUID): Promise<boolean> {
-    await this.usersRepository.remove(id);
-    return true;
+    return await this.usersRepository.remove(id);
   }
 }
