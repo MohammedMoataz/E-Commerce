@@ -22,10 +22,6 @@ export class UsersRepository implements GenericRepository, IUsersRepository {
         return await db
             .select()
             .from(User)
-            .leftJoin(Order, eq(User.id, Order.userId))
-            .leftJoin(Review, eq(User.id, Review.clientId))
-            .leftJoin(Cart, eq(User.id, Cart.userId))
-            .leftJoin(Audit, eq(User.id, Audit.auditBy));
     }
 
     async findOneById(id: UUID): Promise<any> {
