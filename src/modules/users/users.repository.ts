@@ -6,10 +6,6 @@ import { GenericRepository } from "src/common/repositories/generic.repository";
 import { User } from "./entities/user.entity";
 import { IUsersRepository } from "./users.irepository";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { Order } from "../orders/entities/order.entity";
-import { Review } from "../reviews/entities/review.entity";
-import { Cart } from "../cart/entities/cart.entity";
-import { Audit } from "../audit/entities/audit.entity";
 
 export class UsersRepository implements GenericRepository, IUsersRepository {
     async create(data: typeof User.$inferInsert): Promise<any> {
