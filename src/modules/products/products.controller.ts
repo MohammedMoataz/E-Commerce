@@ -26,7 +26,6 @@ export class ProductsController {
     return await this.productsService.create(createProductDto);
   }
 
-  @Serialize(ProductDto)
   @Get()
   async findAll(): Promise<ProductDto[]> {
     return await this.productsService.findAll();
@@ -45,7 +44,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number): Promise<boolean> {
+  remove(@Param('id') id: number): Promise<string> {
     return this.productsService.remove(id);
   }
 }
