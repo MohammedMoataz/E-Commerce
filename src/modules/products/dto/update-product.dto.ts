@@ -1,10 +1,53 @@
-import { Exclude } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
-import { OmitType } from '@nestjs/mapped-types';
-import { CreateProductDto } from './create-product.dto';
+import { ApiProperty } from "@nestjs/swagger";
+import {
+    IsNumber,
+    IsOptional,
+    IsString
+} from "class-validator";
 
-export class UpdateProductDto extends OmitType(CreateProductDto, ['createdAt']) {
-    @Exclude()
-    @ApiProperty({ description: 'Timestamp when the product was last updated.', required: false })
-    readonly updatedAt?: Date;
+export class UpdateProductDto {
+    @ApiProperty({ description: 'Identifier of the category to which the product belongs.' })
+    @IsOptional()
+    @IsNumber()
+    categoryId?: number;
+
+    @ApiProperty({ description: 'Title of the product.' })
+    @IsOptional()
+    @IsString()
+    title?: string;
+
+    @ApiProperty({ description: 'Detailed description of the product.' })
+    @IsOptional()
+    @IsString()
+    description?: string;
+
+    @ApiProperty({ description: 'Available quantity of the product in stock.' })
+    @IsOptional()
+    @IsNumber()
+    quantity?: number;
+
+    @ApiProperty({ description: 'Price of the product.' })
+    @IsOptional()
+    @IsNumber()
+    price?: number;
+
+    @ApiProperty({ description: 'URL of the cover image for the product.' })
+    @IsOptional()
+    @IsString()
+    cover_image?: string;
+
+    @ApiProperty({ description: 'Discount on the product in percentage.' })
+    @IsOptional()
+    @IsNumber()
+    discount?: number;
+
+    @ApiProperty({ description: 'Average rating of the product.' })
+    @IsOptional()
+    @IsNumber()
+    ratingAverage?: number;
+
+    @ApiProperty({ description: 'Total number of ratings for the product.' })
+    @IsOptional()
+    @IsNumber()
+    ratingQuantity?: number;
 }

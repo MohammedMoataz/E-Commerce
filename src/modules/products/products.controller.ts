@@ -12,34 +12,40 @@ import { ApiTags } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { Serialize } from 'src/common/interceptors/serialize.interceptor';
+import { ProductDto } from './dto/product.dto';
 
 @ApiTags('Products APIs')
 @Controller('v1/products/')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) { }
 
+  @Serialize(ProductDto)
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  async create(@Body() createProductDto: CreateProductDto): Promise<ProductDto> {
+    return await this.productsService.create(createProductDto);
   }
 
+  @Serialize(ProductDto)
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  async findAll(): Promise<ProductDto[]> {
+    return await this.productsService.findAll();
   }
 
+  @Serialize(ProductDto)
   @Get(':id')
-  findOneById(@Param('id') id: number) {
-    return this.productsService.findOneById(id);
+  async findOneById(@Param('id') id: number): Promise<ProductDto> {
+    return await this.productsService.findOneById(id);
   }
 
+  @Serialize(ProductDto)
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(id, updateProductDto);
+  async update(@Param('id') id: number, @Body() updateProductDto: UpdateProductDto): Promise<ProductDto> {
+    return await this.productsService.update(id, updateProductDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: number): Promise<boolean> {
     return this.productsService.remove(id);
   }
 }

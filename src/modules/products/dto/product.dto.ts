@@ -1,53 +1,44 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-    IsNumber,
-    IsOptional,
-    IsString
-} from "class-validator";
+import { Expose } from "class-transformer";
 import { CategoryDto } from "src/modules/categories/dto/category.dto";
 
 export class ProductDto {
     @ApiProperty({ description: 'Unique identifier for the product.' })
-    @IsNumber()
+    @Expose()
     id: number;
 
-    @ApiProperty({ description: 'Category of the product.', required: false })
-    @IsOptional()
-    category?: CategoryDto;
-
     @ApiProperty({ description: 'Title of the product.' })
-    @IsString()
+    @Expose()
     title: string;
 
     @ApiProperty({ description: 'Detailed description of the product.' })
-    @IsString()
+    @Expose()
     description: string;
 
     @ApiProperty({ description: 'Available quantity of the product in stock.' })
-    @IsNumber()
+    @Expose()
     quantity: number;
 
     @ApiProperty({ description: 'URL of the cover image for the product.', required: false })
-    @IsOptional()
-    @IsString()
-    cover_image?: string;
+    @Expose()
+    cover_image: string;
 
     @ApiProperty({ description: 'Price of the product.' })
-    @IsNumber()
+    @Expose()
     price: number;
 
     @ApiProperty({ description: 'Discount on the product in percentage.', required: false })
-    @IsOptional()
-    @IsNumber()
-    discount?: number;
+    @Expose()
+    discount: number;
 
     @ApiProperty({ description: 'Average rating of the product.', required: false })
-    @IsOptional()
-    @IsNumber()
-    ratingAverage?: number;
+    @Expose()
+    ratingAverage: number;
 
     @ApiProperty({ description: 'Total number of ratings for the product.', required: false })
-    @IsOptional()
-    @IsNumber()
-    ratingQuantity?: number;
+    @Expose()
+    ratingQuantity: number;
+
+    @ApiProperty({ description: 'Category of the product.', required: false })
+    category: CategoryDto;
 }
