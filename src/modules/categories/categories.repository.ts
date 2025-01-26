@@ -6,10 +6,11 @@ import { GenericRepository } from "src/common/repositories/generic.repository";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
 
 export class CategoriesRepository implements GenericRepository {
-    async create(data: typeof Category.$inferInsert) {
+    async create(data: typeof Category.$inferInsert): Promise<any> {
         return await db
             .insert(Category)
-            .values(data);
+            .values(data)
+            .returning();
     }
 
     async findAll(): Promise<any> {
@@ -29,7 +30,8 @@ export class CategoriesRepository implements GenericRepository {
         return await db
             .update(Category)
             .set({ ...updateCategoryDto })
-            .where(eq(Category.id, id));
+            .where(eq(Category.id, id))
+            .returning();
     }
 
 

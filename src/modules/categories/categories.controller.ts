@@ -12,34 +12,39 @@ import { ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { Serialize } from 'src/common/interceptors/serialize.interceptor';
+import { CategoryDto } from './dto/category.dto';
 
 @ApiTags('Categories APIs')
 @Controller('v1/categories/')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) { }
 
+  @Serialize(CategoryDto)
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoriesService.create(createCategoryDto);
+  async create(@Body() createCategoryDto: CreateCategoryDto): Promise<CategoryDto> {
+    return await this.categoriesService.create(createCategoryDto);
   }
 
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  async findAll(): Promise<CategoryDto[]> {
+    return await this.categoriesService.findAll();
   }
 
+  @Serialize(CategoryDto)
   @Get(':id')
-  findOneById(@Param('id') id: number) {
-    return this.categoriesService.findOneById(id);
+  async findOneById(@Param('id') id: number): Promise<CategoryDto> {
+    return await this.categoriesService.findOneById(id);
   }
 
+  @Serialize(CategoryDto)
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateCategoryDto: UpdateCategoryDto) {
-    return this.categoriesService.update(id, updateCategoryDto);
+  async update(@Param('id') id: number, @Body() updateCategoryDto: UpdateCategoryDto): Promise<CategoryDto> {
+    return await this.categoriesService.update(id, updateCategoryDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.categoriesService.remove(id);
+  async remove(@Param('id') id: number): Promise<string> {
+    return await this.categoriesService.remove(id);
   }
 }

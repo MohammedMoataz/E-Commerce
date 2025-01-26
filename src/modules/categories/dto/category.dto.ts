@@ -1,21 +1,16 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-    IsNumber,
-    IsOptional,
-    IsString
-} from "class-validator";
+import { Expose } from "class-transformer";
 
 export class CategoryDto {
     @ApiProperty({ description: 'Unique identifier for the category.' })
-    @IsNumber()
+    @Expose()
     id: number;
 
     @ApiProperty({ description: 'Name of the category.' })
-    @IsString()
+    @Expose()
     name: string;
 
     @ApiProperty({ description: 'A brief description of the category.', required: false })
-    @IsOptional()
-    @IsString()
+    @Expose()
     description?: string;
 }

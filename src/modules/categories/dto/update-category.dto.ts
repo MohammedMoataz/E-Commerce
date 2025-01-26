@@ -1,10 +1,13 @@
-import { Exclude } from "class-transformer";
-import { OmitType } from "@nestjs/mapped-types";
 import { ApiProperty } from "@nestjs/swagger";
-import { CreateCategoryDto } from "./create-category.dto";
+import { IsOptional, IsString } from "class-validator";
 
-export class UpdateCategoryDto extends OmitType(CreateCategoryDto, ['createdAt']) {
-    @Exclude()
-    @ApiProperty({ description: 'Timestamp when the cactegory was last updated.', required: false })
-    readonly updatedAt?: Date;
+export class UpdateCategoryDto {
+    @ApiProperty({ description: 'Name of the category.' })
+    @IsString()
+    name: string;
+
+    @ApiProperty({ description: 'A brief description of the category.', required: false })
+    @IsOptional()
+    @IsString()
+    description?: string;
 }
