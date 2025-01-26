@@ -8,7 +8,7 @@ import {
 import { LoggerService } from "../helpers/logger/logger.service";
 
 @Catch()
-export class AllExceptionsFilter implements ExceptionFilter {
+export default class AllExceptionsFilter implements ExceptionFilter {
     catch(exception: ExceptionFilter, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
@@ -20,6 +20,22 @@ export class AllExceptionsFilter implements ExceptionFilter {
             : { message: 'Internal server error' };
 
         LoggerService.debug(`${exception}`);
+
+        if (process.env.NODE_ENV !== 'production') {
+            console.log({
+                success: false,
+                statusCode: status,
+                error: message,
+                stack: exception,
+            });
+
+            return response.status(status).json({
+                success: false,
+                statusCode: status,
+                error: message,
+            });
+        }
+
         response.status(status).json({
             success: false,
             statusCode: status,

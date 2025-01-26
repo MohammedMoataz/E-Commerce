@@ -3,7 +3,7 @@ import {
   Module,
   NestModule
 } from '@nestjs/common';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 
 import { AuthModule } from './modules/auth/auth.module';
 import { AuditModule } from './modules/audit/audit.module';
@@ -18,8 +18,10 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
 import { MailModule } from './common/helpers/mail/mail.module';
 import { LoggerModule } from './common/helpers/logger/logger.module';
 import { CustomCacheModule } from './common/helpers/cache/cache.module';
-import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
-import { LoggerMiddleware } from './middlewares/logger.middleware';
+import LoggerMiddleware from './middlewares/logger.middleware';
+import AllExceptionsFilter from './common/filters/all-exceptions.filter';
+import ValidationPipes from './common/pipes/validation.pipe';
+import SerializeInterceptor from './common/interceptors/serialize.interceptor';
 
 @Module({
   imports: [
@@ -37,10 +39,18 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
     LoggerModule,
     CustomCacheModule,
   ],
-  providers: [{
+  providers: [
+    {
       provide: APP_FILTER,
       useClass: AllExceptionsFilter
-    }]
+    }, {
+      provide: APP_PIPE,
+      useClass: ValidationPipes
+    }, {
+      provide: APP_INTERCEPTOR,
+      useClass: SerializeInterceptor
+    }
+  ]
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

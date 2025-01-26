@@ -1,3 +1,4 @@
+import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 export default class SwaggerExtension {
@@ -20,7 +21,7 @@ export default class SwaggerExtension {
         )
         .build();
 
-    static setup(app: any) {
+    static setup(app: INestApplication) {
         const documentFactory = () => SwaggerModule.createDocument(
             app,
             SwaggerExtension.config, {
