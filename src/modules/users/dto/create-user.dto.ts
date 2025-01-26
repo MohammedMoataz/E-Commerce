@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsNumber,
   IsOptional,
+  IsPhoneNumber,
   IsString,
 } from "class-validator";
 
@@ -17,10 +18,7 @@ export class CreateUserDto {
   lastName: string;
 
   @ApiProperty({ description: 'Email address of the user.' })
-  @IsEmail({}, {
-    message: 'Please enter a valid email address.',
-    always: true,
-  })
+  @IsEmail()
   email: string;
 
   @ApiProperty({ description: 'Username for the user.' })
@@ -31,9 +29,19 @@ export class CreateUserDto {
   @IsString()
   password: string;
 
+  @ApiProperty({ description: 'Phone number of the user.', required: true, pattern: '^[0-9]{11}$' })
+  @IsString()
+  @IsPhoneNumber('EG', { message: 'Phone number must be a valid Egyptian phone number', })
+  phoneNumber: string;
+
+  @ApiProperty({ description: 'Age of the user.', required: false })
+  @IsOptional()
+  @IsNumber()
+  age: number;
+
   @ApiProperty({ description: 'Role of the user in the system.' })
   @IsString()
-  role: string;
+  role?: string;
 
   @ApiProperty({ description: 'Gender of the user.' })
   @IsOptional()
@@ -45,22 +53,13 @@ export class CreateUserDto {
   @IsString()
   avatar?: string;
 
-  @ApiProperty({ description: 'Age of the user.', required: false })
-  @IsOptional()
-  @IsNumber()
-  age?: number;
-
-  @ApiProperty({ description: 'Phone number of the user.', required: false })
-  @IsOptional()
-  @IsString()
-  phoneNumber?: string;
-
   @ApiProperty({ description: 'Address of the user.', required: false })
   @IsOptional()
   @IsString()
   address?: string;
 
   @ApiProperty({ description: 'Status of the user account.', required: true })
+  @IsOptional()
   @IsString()
-  status: string;
+  status?: string;
 }

@@ -19,8 +19,8 @@ export class LoggerService {
     LoggerService.logger.info({ message });
   }
 
-  static error(message: string) {
-    LoggerService.logger.error({ message });
+  static error(error: Error) {
+    LoggerService.logger.error({ message: error.message, stack: error.stack });
   }
 
   static debug(message: string) {

@@ -9,9 +9,9 @@ export default class LoggerMiddleware implements NestMiddleware {
             LoggerService.info(`[${req.method}] ${req.url}`);
             next();
         } catch (err: Error | any) {
-            LoggerService.error(`[${req.method}] ${req.url}`);
-            LoggerService.error(err.message);
-            return { error: "Internal error occurred: " + err.message };
+            LoggerService.error(err);
+            console.error(err);
+            return { status: err.status, error: err.message };
         }
     }
 }

@@ -26,9 +26,9 @@ export class AuthGuard implements CanActivate {
                 token, {
                 secret: ACCESS_TOKEN_SECRET
             });
-            
-            request['user'] = payload;
-            LoggerService.info(`assigned user to req: ${payload}`);
+
+            request['currentUser'] = payload;
+            LoggerService.info(`assigned currentUser to req: ${payload}`);
         } catch {
             throw new UnauthorizedException();
         }

@@ -24,6 +24,7 @@ export class UsersService {
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
       passwordHash: passwordHash,
+      phoneNumber: createUserDto.phoneNumber,
       age: createUserDto.age,
       ...createUserDto,
     });
@@ -32,6 +33,9 @@ export class UsersService {
   async findAll(): Promise<UserDto[]> {
     const users = await this.usersRepository.findAll();
     let usersDto: UserDto[];
+
+    if (users.length)
+      usersDto = users.map((user: typeof User) => plainToClass(UserDto, user));
 
     return usersDto;
   }
@@ -42,7 +46,6 @@ export class UsersService {
 
   async findOneByEmail(email: string): Promise<UserDto> {
     return await this.usersRepository.findOneByEmail(email);
-
   }
 
   async update(id: UUID, updateUserDto: UpdateUserDto): Promise<UserDto> {

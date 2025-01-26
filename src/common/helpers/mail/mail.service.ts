@@ -1,16 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable
+} from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
+import { LoggerService } from '../logger/logger.service';
+
+interface VerifyCodeTemplate {
+  to: string;
+  subject: string;
+  text: string;
+}
 
 @Injectable()
 export class MailService {
-  private static readonly mailerService: MailerService;
+  constructor(private readonly mailerService: MailerService) { }
 
-  static async sendEmail(to: string, subject: string, text: string, html?: string) {
-    return await MailService.mailerService.sendMail({
-      to,
-      subject,
-      text,
-      html,
-    });
+  async sendVerificationCode(verifyCodeTemplate: VerifyCodeTemplate): Promise<any> {
+    return await this.mailerService.sendMail(verifyCodeTemplate)
+      .catch((error) => {
+        LoggerService.error(error);
+        throw new BadRequestException("Email provided not valid");
+      });
   }
 }

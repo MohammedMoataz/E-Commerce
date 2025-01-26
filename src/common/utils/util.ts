@@ -1,9 +1,5 @@
 import * as bcrypt from "bcrypt"
-import {
-    sign,
-    verify,
-    JwtPayload
-} from "jsonwebtoken"
+import * as jwt from "jsonwebtoken"
 import 'dotenv/config'
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string
@@ -71,14 +67,14 @@ export const compareHashedData = async (
  */
 export const generateAccessToken = (
     payload: string | Buffer | object,
-    callback: (err: Error | null, token: string) => void
-): void => {
+    callback?: (err: Error | null, token: string) => void
+) => {
     /**
      * Sign the given payload into a JSON Web Token string.
      * 
      * The generated token will expire in 7 days.
      */
-    sign(
+    jwt.sign(
         payload, // Payload to sign
         ACCESS_TOKEN_SECRET, // Secret to sign the payload with
         { expiresIn: '7d' }, // Expiration time of the token
@@ -96,14 +92,14 @@ export const generateAccessToken = (
  */
 export const generateRefreshToken = (
     payload: string | Buffer | object,
-    callback: (err: Error | null, token: string) => void
-): void => {
+    callback?: (err: Error | null, token: string) => void
+) => {
     /**
      * Sign the given payload into a JSON Web Token string.
      * 
      * The generated token will expire in 7 days.
      */
-    sign(
+    jwt.sign(
         payload, // Payload to sign
         REFRESH_TOKEN_SECRET, // Secret to sign the payload with
         { expiresIn: '7d' }, // Expiration time of the token
@@ -123,9 +119,9 @@ export const generateRefreshToken = (
  */
 export const verifyToken = (
     token: string,
-    callback: (err: Error | null, decoded: JwtPayload | undefined) => void
-): void =>
-    verify(
+    callback?: (err: Error | null, decoded: jwt.JwtPayload | undefined) => void
+) =>
+    jwt.verify(
         token, // JWT string to verify
         ACCESS_TOKEN_SECRET, // Secret or public key to verify the token with
         { complete: true }, // Options for verification (see https://github.com/auth0/node-jsonwebtoken)
@@ -144,9 +140,9 @@ export const verifyToken = (
  */
 export const verifyRefreshToken = (
     token: string,
-    callback: (err: Error | null, decoded: JwtPayload | undefined) => void
-): void =>
-    verify(
+    callback?: (err: Error | null, decoded: jwt.JwtPayload | undefined) => void
+) =>
+    jwt.verify(
         token, // JWT string to verify
         REFRESH_TOKEN_SECRET, // Secret or public key to verify the token with
         { complete: true }, // Options for verification (see https://github.com/auth0/node-jsonwebtoken)

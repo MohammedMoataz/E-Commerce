@@ -19,7 +19,7 @@ export default class AllExceptionsFilter implements ExceptionFilter {
             ? exception.getResponse()
             : { message: 'Internal server error' };
 
-        LoggerService.debug(`${exception}`);
+        LoggerService.error(exception as unknown as Error);
 
         if (process.env.NODE_ENV !== 'production') {
             console.log({
