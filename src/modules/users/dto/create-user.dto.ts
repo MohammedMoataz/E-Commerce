@@ -29,12 +29,12 @@ export class CreateUserDto {
   @IsString()
   password: string;
 
-  @ApiProperty({ description: 'Phone number of the user.', required: true, pattern: '^[0-9]{11}$' })
+  @ApiProperty({ description: 'Phone number of the user.', pattern: '^[0-9]{11}$' })
   @IsString()
   @IsPhoneNumber('EG', { message: 'Phone number must be a valid Egyptian phone number', })
   phoneNumber: string;
 
-  @ApiProperty({ description: 'Age of the user.', required: false })
+  @ApiProperty({ description: 'Age of the user.' })
   @IsNumber()
   age: number;
 
@@ -48,17 +48,17 @@ export class CreateUserDto {
   @IsEnum(['male', 'female'])
   gender?: string;
 
-  @ApiProperty({ description: 'Profile picture URL of the user.', required: false })
+  @ApiProperty({ description: 'Profile picture URL of the user.' })
   @IsOptional()
   @IsString()
   avatar?: string;
 
-  @ApiProperty({ description: 'Address of the user.', required: false })
+  @ApiProperty({ description: 'Address of the user.' })
   @IsOptional()
   @IsString()
   address?: string;
 
-  @ApiProperty({ description: 'Status of the user account.', required: true })
+  @ApiProperty({ description: 'Status of the user account.' })
   @IsOptional()
   @IsString()
   status?: string;

@@ -32,26 +32,26 @@ export class UserDto {
   @Expose()
   gender: string;
 
-  @ApiProperty({ description: 'Profile picture URL of the user.', required: false })
+  @ApiProperty({ description: 'Profile picture URL of the user.' })
   @Expose()
   avatar: string;
 
-  @ApiProperty({ description: 'Age of the user.', required: false })
+  @ApiProperty({ description: 'Age of the user.' })
   @Expose()
   age: number;
 
-  @ApiProperty({ description: 'Phone number of the user.', required: false })
+  @ApiProperty({ description: 'Phone number of the user.' })
   @Expose()
   phoneNumber: string;
 
-  @ApiProperty({ description: 'Address of the user.', required: false })
+  @ApiProperty({ description: 'Address of the user.' })
   @Expose()
   address: string;
 
-  @ApiProperty({ description: 'Status of the user account.', required: false })
+  @ApiProperty({ description: 'Status of the user account.' })
   @Expose()
   status: string;
 
-  @ApiProperty({ description: 'Orders placed by the user.', required: false })
+  @ApiProperty({ description: 'Orders placed by the user.' })
   Orders?: OrderDto[];
 }

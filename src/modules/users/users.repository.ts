@@ -36,7 +36,7 @@ export class UsersRepository implements GenericRepository, IUsersRepository {
     }
 
     async update(id: UUID, updateUserDto: UpdateUserDto): Promise<any> {
-        updateUserDto['updatedAt'] = new Date();
+        updateUserDto['updatedAt'] = Date.now();
         return await db
             .update(User)
             .set({ ...updateUserDto })

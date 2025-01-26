@@ -6,24 +6,21 @@ import {
   Patch,
   Param,
   Delete,
-  UseInterceptors,
-  Inject,
-  UseFilters,
-  UsePipes,
-  ValidationPipe
+  UseGuards
 } from '@nestjs/common';
 import { UUID } from 'crypto';
-import { ApiTags } from '@nestjs/swagger';
-import { CacheInterceptor } from '@nestjs/cache-manager';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/user.dto';
 import { Serialize } from 'src/common/interceptors/serialize.interceptor';
+import { AuthGuard } from 'src/common/guards/jwt.guard';
 
 @ApiTags('Users APIs')
-@UseInterceptors(CacheInterceptor)
+@ApiBearerAuth('JWT')
+@UseGuards(AuthGuard)
 @Controller('v1/users/')
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
@@ -53,7 +50,6 @@ export class UsersController {
   }
 
   @Delete(':id')
-
   async remove(@Param('id') id: UUID): Promise<boolean> {
     return await this.usersService.remove(id);
   }

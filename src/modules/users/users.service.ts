@@ -11,9 +11,7 @@ import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private readonly usersRepository: UsersRepository,
-  ) { }
+  constructor(private readonly usersRepository: UsersRepository) { }
 
   async create(createUserDto: CreateUserDto): Promise<UserDto> {
     let passwordHash = await hashData(createUserDto.password);
