@@ -35,11 +35,11 @@ export class CreateUserDto {
   phoneNumber: string;
 
   @ApiProperty({ description: 'Age of the user.', required: false })
-  @IsOptional()
   @IsNumber()
   age: number;
 
   @ApiProperty({ description: 'Role of the user in the system.' })
+  @IsOptional()
   @IsString()
   role?: string;
 
