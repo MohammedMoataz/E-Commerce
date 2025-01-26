@@ -19,41 +19,42 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
-import { AllExceptionsFilter } from 'src/common/filters/all-exceptions.filter';
-import { ResponseInterceptor } from 'src/common/interceptors/response.interceptor';
 import { UserDto } from './dto/user.dto';
+import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 
 @ApiTags('Users APIs')
-@UseFilters(AllExceptionsFilter)
-@UseInterceptors(CacheInterceptor, ResponseInterceptor)
-@UsePipes(ValidationPipe)
+@UseInterceptors(CacheInterceptor)
 @Controller('v1/users/')
 export class UsersController {
   constructor(private readonly usersService: UsersService) { }
 
+  @Serialize(UserDto)
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
     return await this.usersService.create(createUserDto);
   }
 
+  @Serialize(UserDto)
   @Get()
   async findAll(): Promise<UserDto[]> {
     return await this.usersService.findAll();
   }
 
+  @Serialize(UserDto)
   @Get(':id')
-  async findOne(@Param('id') id: UUID) {
+  async findOne(@Param('id') id: UUID): Promise<UserDto> {
     return await this.usersService.findOne(id);
   }
 
+  @Serialize(UserDto)
   @Patch(':id')
-  async update(@Param('id') id: UUID, @Body() updateUserDto: UpdateUserDto) {
+  async update(@Param('id') id: UUID, @Body() updateUserDto: UpdateUserDto): Promise<UserDto> {
     return await this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
 
-  async remove(@Param('id') id: UUID) {
+  async remove(@Param('id') id: UUID): Promise<boolean> {
     return await this.usersService.remove(id);
   }
 }

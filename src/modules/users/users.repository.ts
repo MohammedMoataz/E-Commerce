@@ -12,10 +12,11 @@ import { Cart } from "../cart/entities/cart.entity";
 import { Audit } from "../audit/entities/audit.entity";
 
 export class UsersRepository implements GenericRepository, IUsersRepository {
-    async create(data: typeof User.$inferInsert) {
+    async create(data: typeof User.$inferInsert): Promise<any> {
         return await db
             .insert(User)
-            .values(data);
+            .values(data)
+            .returning();
     }
 
     async findAll(): Promise<any> {
@@ -39,10 +40,12 @@ export class UsersRepository implements GenericRepository, IUsersRepository {
     }
 
     async update(id: UUID, updateUserDto: UpdateUserDto): Promise<any> {
+        updateUserDto['updatedAt'] = new Date();
         return await db
             .update(User)
             .set({ ...updateUserDto })
-            .where(eq(User.id, id));
+            .where(eq(User.id, id))
+            .returning();
     }
 
     async remove(id: UUID): Promise<any> {

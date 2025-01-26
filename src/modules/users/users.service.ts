@@ -15,7 +15,7 @@ export class UsersService {
     private readonly usersRepository: UsersRepository,
   ) { }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<UserDto> {
     let passwordHash = await hashData(createUserDto.password);
 
     return await this.usersRepository.create({
@@ -39,20 +39,21 @@ export class UsersService {
     return usersDto;
   }
 
-  async findOne(id: UUID): Promise<any> {
+  async findOne(id: UUID): Promise<UserDto> {
     return await this.usersRepository.findOneById(id);
   }
 
-  async findOneByEmail(email: string): Promise<any> {
+  async findOneByEmail(email: string): Promise<UserDto> {
     return await this.usersRepository.findOneByEmail(email);
 
   }
 
-  async update(id: UUID, updateUserDto: UpdateUserDto) {
+  async update(id: UUID, updateUserDto: UpdateUserDto): Promise<UserDto> {
     return await this.usersRepository.update(id, updateUserDto);
   }
 
-  async remove(id: UUID) {
-    return await this.usersRepository.remove(id);
+  async remove(id: UUID): Promise<boolean> {
+    await this.usersRepository.remove(id);
+    return true;
   }
 }

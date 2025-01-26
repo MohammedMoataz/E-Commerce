@@ -17,7 +17,10 @@ export class CreateUserDto {
   lastName: string;
 
   @ApiProperty({ description: 'Email address of the user.' })
-  @IsEmail()
+  @IsEmail({}, {
+    message: 'Please enter a valid email address.',
+    always: true,
+  })
   email: string;
 
   @ApiProperty({ description: 'Username for the user.' })
@@ -33,8 +36,9 @@ export class CreateUserDto {
   role: string;
 
   @ApiProperty({ description: 'Gender of the user.' })
+  @IsOptional()
   @IsEnum(['male', 'female'])
-  gender: string;
+  gender?: string;
 
   @ApiProperty({ description: 'Profile picture URL of the user.', required: false })
   @IsOptional()
@@ -56,8 +60,7 @@ export class CreateUserDto {
   @IsString()
   address?: string;
 
-  @ApiProperty({ description: 'Status of the user account.', required: false })
-  @IsOptional()
+  @ApiProperty({ description: 'Status of the user account.', required: true })
   @IsString()
-  status?: string;
+  status: string;
 }

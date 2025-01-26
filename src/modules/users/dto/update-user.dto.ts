@@ -41,7 +41,7 @@ export class UpdateUserDto {
     @ApiProperty({ description: 'Gender of the user.' })
     @IsOptional()
     @IsEnum(['male', 'female'])
-    gender: string;
+    gender?: string;
 
     @ApiProperty({ description: 'Profile picture URL of the user.', required: false })
     @IsOptional()

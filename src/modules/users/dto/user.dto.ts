@@ -1,65 +1,57 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsEmail,
-  IsEnum,
-  IsNumber,
-  IsOptional,
-  IsString,
-  IsUUID
-} from "class-validator";
+import { Expose } from "class-transformer";
 import { UUID } from "crypto";
+import { OrderDto } from "src/modules/orders/dto/order.dto";
 
 export class UserDto {
   @ApiProperty({ description: 'Unique identifier for the user.' })
-  @IsUUID()
+  @Expose()
   id: UUID;
 
   @ApiProperty({ description: 'First name of the user.' })
-  @IsString()
+  @Expose()
   firstName: string;
 
   @ApiProperty({ description: 'Last name of the user.' })
-  @IsString()
+  @Expose()
   lastName: string;
 
   @ApiProperty({ description: 'Email address of the user.' })
-  @IsEmail()
+  @Expose()
   email: string;
 
   @ApiProperty({ description: 'Username for the user.' })
-  @IsString()
+  @Expose()
   username: string;
 
   @ApiProperty({ description: 'Role of the user in the system.' })
-  @IsString()
+  @Expose()
   role: string;
 
   @ApiProperty({ description: 'Gender of the user.' })
-  @IsEnum(['male', 'female'])
+  @Expose()
   gender: string;
 
   @ApiProperty({ description: 'Profile picture URL of the user.', required: false })
-  @IsOptional()
-  @IsString()
-  avatar?: string;
+  @Expose()
+  avatar: string;
 
   @ApiProperty({ description: 'Age of the user.', required: false })
-  @IsOptional()
-  @IsNumber()
-  age?: number;
+  @Expose()
+  age: number;
 
   @ApiProperty({ description: 'Phone number of the user.', required: false })
-  @IsOptional()
-  @IsString()
-  phoneNumber?: string;
+  @Expose()
+  phoneNumber: string;
 
   @ApiProperty({ description: 'Address of the user.', required: false })
-  @IsOptional()
-  @IsString()
-  address?: string;
+  @Expose()
+  address: string;
 
   @ApiProperty({ description: 'Status of the user account.', required: false })
-  @IsOptional()
-  @IsString()
-  status?: string;
+  @Expose()
+  status: string;
+
+  @ApiProperty({ description: 'Orders placed by the user.', required: false })
+  Orders?: OrderDto[];
 }
