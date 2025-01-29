@@ -32,6 +32,7 @@ export class CategoriesService {
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto): Promise<CategoryDto> {
+    updateCategoryDto['updatedAt'] = Date.now();
     return await this.categoriesRepository.update(id, updateCategoryDto);
   }
 
