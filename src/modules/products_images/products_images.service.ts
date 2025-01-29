@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { ProductsImagesRepository } from './products_images.repository';
 import { CreateProductImageDto } from './dto/create-product_image.dto';
+import { ProductImageDto } from './dto/product_image.dto';
 
 @Injectable()
 export class ProductsImagesService {
@@ -9,21 +10,24 @@ export class ProductsImagesService {
     private readonly ProductsImagesRepository: ProductsImagesRepository
   ) { }
 
-  create(createProductImageDto: CreateProductImageDto) {
-    return this.ProductsImagesRepository.create({
+  async create(createProductImageDto: CreateProductImageDto): Promise<ProductImageDto> {
+    return await this.ProductsImagesRepository.create({
       ...createProductImageDto,
     });
   }
 
-  findAll() {
-    return this.ProductsImagesRepository.findAll();
+  async findAll(): Promise<ProductImageDto[]> {
+    return await this.ProductsImagesRepository.findAll();
   }
 
-  findOne(id: number) {
-    return this.ProductsImagesRepository.findOneById(id);
+  async findOne(id: number): Promise<ProductImageDto> {
+    return await this.ProductsImagesRepository.findOneById(id);
   }
 
-  remove(id: number) {
-    return this.ProductsImagesRepository.remove(id);
+  async remove(id: number): Promise<string> {
+    const result = await this.ProductsImagesRepository.remove(id);
+    return result.rowCount > 0
+      ? "Deleted successfully"
+      : "Deleted failed";
   }
 }

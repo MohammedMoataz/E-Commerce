@@ -5,10 +5,11 @@ import { ProductImage } from "./entities/product_images.entity";
 import { GenericRepository } from "src/common/repositories/generic.repository";
 
 export class ProductsImagesRepository implements GenericRepository {
-    async create(data: typeof ProductImage.$inferInsert) {
+    async create(data: typeof ProductImage.$inferInsert): Promise<any> {
         return await db
             .insert(ProductImage)
-            .values(data);
+            .values(data)
+            .returning();
     }
 
     async findAll(): Promise<any> {
