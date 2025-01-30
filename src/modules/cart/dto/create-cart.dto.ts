@@ -1,14 +1,12 @@
-import { Exclude } from "class-transformer";
 import { ApiProperty } from "@nestjs/swagger";
-import { OmitType } from "@nestjs/mapped-types";
 import { UUID } from "crypto";
 import {
     IsNumber,
+    IsOptional,
     IsUUID
 } from "class-validator";
-import { CartDto } from "./cart.dto";
 
-export class CreateCartDto extends OmitType(CartDto, ['id', 'order', 'user']) {
+export class CreateCartDto {
     @ApiProperty({ description: 'UUID of the user associated with the cart.' })
     @IsUUID()
     userId: UUID;
@@ -17,7 +15,13 @@ export class CreateCartDto extends OmitType(CartDto, ['id', 'order', 'user']) {
     @IsNumber()
     orderId: number;
 
-    @Exclude()
-    @ApiProperty({ description: 'Timestamp when the cart was created.', required: false })
-    readonly createdAt?: Date;
+    @ApiProperty({ description: 'Total amount of the cart, including items and discounts.' })
+    @IsOptional()
+    @IsNumber()
+    totalAmount?: number;
+
+    @ApiProperty({ description: 'Total discount applied to the cart, if any.' })
+    @IsOptional()
+    @IsNumber()
+    totalDiscount?: number;
 }
