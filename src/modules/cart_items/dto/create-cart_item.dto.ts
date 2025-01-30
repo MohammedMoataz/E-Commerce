@@ -1,14 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Exclude } from "class-transformer";
-import { OmitType } from "@nestjs/mapped-types";
 import {
     IsNotEmpty,
     IsNumber,
+    IsOptional,
     IsPositive
 } from "class-validator";
-import { CartItemDto } from "./cart_item.dto";
 
-export class CreateCartItemDto extends OmitType(CartItemDto, ['id', 'product', 'cart']) {
+export class CreateCartItemDto {
     @ApiProperty({ description: 'ID of the product being added to the cart.' })
     @IsNotEmpty()
     @IsNumber()
@@ -21,7 +19,15 @@ export class CreateCartItemDto extends OmitType(CartItemDto, ['id', 'product', '
     @IsPositive()
     cartId: number;
 
-    @Exclude()
-    @ApiProperty({ description: 'Timestamp when the cart item was created.', required: false })
-    readonly createdAt?: Date;
+    @ApiProperty({ description: 'The quantity of the product in the cart.', required: false })
+    @IsOptional()
+    @IsNumber()
+    @IsPositive()
+    quantity?: number;
+
+    @ApiProperty({ description: 'The discount applied to the product in the cart.', required: false })
+    @IsOptional()
+    @IsNumber()
+    @IsPositive()
+    discount?: number;
 }
