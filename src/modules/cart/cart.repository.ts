@@ -28,6 +28,8 @@ export class CartRepository implements GenericRepository {
     }
 
     async update(id: number, updateCartDto: UpdateCartDto): Promise<any> {
+        updateCartDto['updatedAt'] = Date.now();
+
         return await db
             .update(Cart)
             .set({ ...updateCartDto })
