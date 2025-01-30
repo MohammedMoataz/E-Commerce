@@ -12,34 +12,39 @@ import { ApiTags } from '@nestjs/swagger';
 import { ReviewsService } from './reviews.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateReviewDto } from './dto/update-review.dto';
+import { ReviewDto } from './dto/review.dto';
+import { Serialize } from 'src/common/interceptors/serialize.interceptor';
 
 @ApiTags('Reviews APIs')
 @Controller('v1/reviews/')
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) { }
 
+  @Serialize(ReviewDto)
   @Post()
-  create(@Body() createReviewDto: CreateReviewDto) {
-    return this.reviewsService.create(createReviewDto);
+  async create(@Body() createReviewDto: CreateReviewDto): Promise<ReviewDto> {
+    return await this.reviewsService.create(createReviewDto);
   }
 
   @Get()
-  findAll() {
-    return this.reviewsService.findAll();
+  async findAll(): Promise<ReviewDto[]> {
+    return await this.reviewsService.findAll();
   }
 
+  @Serialize(ReviewDto)
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.reviewsService.findOne(id);
+  async findOne(@Param('id') id: number): Promise<ReviewDto> {
+    return await this.reviewsService.findOne(id);
   }
 
+  @Serialize(ReviewDto)
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateReviewDto: UpdateReviewDto) {
-    return this.reviewsService.update(id, updateReviewDto);
+  async update(@Param('id') id: number, @Body() updateReviewDto: UpdateReviewDto): Promise<ReviewDto> {
+    return await this.reviewsService.update(id, updateReviewDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.reviewsService.remove(id);
+  async remove(@Param('id') id: number): Promise<string> {
+    return await this.reviewsService.remove(id);
   }
 }

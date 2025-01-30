@@ -6,10 +6,11 @@ import { GenericRepository } from "src/common/repositories/generic.repository";
 import { UpdateReviewDto } from "./dto/update-review.dto";
 
 export class ReviewsRepository implements GenericRepository {
-    async create(data: typeof Review.$inferInsert) {
+    async create(data: typeof Review.$inferInsert): Promise<any> {
         return await db
             .insert(Review)
-            .values(data);
+            .values(data)
+            .returning();
     }
 
     async findAll(): Promise<any> {
@@ -29,7 +30,8 @@ export class ReviewsRepository implements GenericRepository {
         return await db
             .update(Review)
             .set({ ...updateReviewDto })
-            .where(eq(Review.id, id));
+            .where(eq(Review.id, id))
+            .returning();
     }
 
     async remove(id: number): Promise<any> {
