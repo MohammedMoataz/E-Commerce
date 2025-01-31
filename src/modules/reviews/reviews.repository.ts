@@ -27,6 +27,7 @@ export class ReviewsRepository implements GenericRepository {
     }
 
     async update(id: number, updateReviewDto: UpdateReviewDto): Promise<any> {
+        updateReviewDto['updatedAt'] = Date.now();
         return await db
             .update(Review)
             .set({ ...updateReviewDto })
